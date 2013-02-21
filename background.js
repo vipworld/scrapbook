@@ -1,14 +1,18 @@
+var activatedTabs = {};
 chrome.browserAction.onClicked.addListener(function(tab) {
-	chrome.tabs.executeScript(null, { file: "main.js" });
-	chrome.tabs.insertCSS(null, { file: "main.css" });
+  if (!activatedTabs[tab.id]) {
+    activatedTabs[tab.id] = true;
+    initScrapbook(tab.id);
+  } else {
+    activatedTabs[tab.id] = false;
+    stopScrapbook(tab.id);
+  }
 });
 
-// chrome.browserAction.onClicked.addListener(function() {
-//   chrome.windows.getCurrent(function(win) {
-//     chrome.tabs.getSelected(win.id, function(tab) {
-//       chrome.tabs.sendMessage(tab.id, {}, function(response) {
-//       });
-//     });
-//   });
-// });
-
+function initScrapbook(id) {
+	chrome.tabs.executeScript(id, { code: "runBook();" });
+	//chrome.tabs.insertCSS(null, { file: "main.css" });
+}
+function stopScrapbook(id) {
+	chrome.tabs.executeScript(id, { code: "stopBook();" });
+}
