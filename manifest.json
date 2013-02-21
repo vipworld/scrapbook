@@ -10,7 +10,8 @@
   "content_scripts" : [
     {
       "matches" : [ "http://*/*" ],
-      "js" : [ "contentscript.js", "jquery-1.9.1.min.js" ],
+      "js" : [ "jquery-1.9.1.min.js", "contentscript.js" ],
+      "css" : [ "main.css" ],
       "run_at" : "document_idle",
       "all_frames" : false
     }

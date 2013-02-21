@@ -9,3 +9,19 @@ body.scrap-open {
 	width: 350px;
 	background-color: #CCC;
 }
+
+#scrapbook {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 350px;
+	background-color: #CCC;
+  z-index: 1000;
+}
+
+.scrapbook-highlight {
+	position: absolute;
+  background-color: rgba(179,212,252,0.5);
+  z-index: 1000;
+}
