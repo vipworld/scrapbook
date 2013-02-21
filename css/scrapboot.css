@@ -8,6 +8,9 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 .scrapbook {
+  background-color: #272B30;
+  color: #C8C8C8;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   /* Allow for input prepend/append in search forms */
 
   /* White icons with optional class, or on hover/focus/active states of certain elements */
