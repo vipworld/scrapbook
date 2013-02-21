@@ -13,7 +13,8 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   });
 
   OO.addMember("initHTML", function(){var self=this;
-    this.$root = $(jade.compile(HTML)()).appendTo("body");
+    this.$root = $('<div id="scrapbook" class="scrapbook"></div>').appendTo("body");
+    this.panel = new Panel(this.$root);
 
     this.$btnStartInspector = this.$root.find("#scrapbook-start-inspector");
     this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");

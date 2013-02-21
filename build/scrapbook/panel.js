@@ -1,28 +1,51 @@
 //var root = '<div class="scrapbook"></div>';
 $m.Class.extend("Panel", function(KLASS, OO){
   OO.addMember("initialize", function($root){var self=this;
-    // manage main view for side panel
-    // navigate panes
-    // dispatch commands to extension
-    var html = "<button id=\"scrapbook-inspector-enabler\">enable inspector</button> | <button id=\"scrapbook-add-extractor\">add extractor</button> | <button id=\"scrapbook-extract\">extract</button><br/>css selector: <input id=\"scrapbook-selector\"/><ul id=\"scrapbook-extractors\"></ul><ul id=\"scrapbook-results\"></ul>";
+    console.log('called');
+    var template = "a.close.icon-white &times;\n.panel.rulesets\n  h1 Existing Rulesets\n  ul.ruleset-list\n    li replace me with rule name\n  button.btn.newRule New Rule\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    button.btn.addRule Add Rule\n  a.next Next\n\n.panel.rule.panel-out\n  h1 Rules/Extractions\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  input#scrapbook-selector\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results";
 
-    var template = "a.close.icon-white &times;\n.panel.rulesets\n  h1 Existing Rulesets\n  ul.ruleset-list\n    li replace me with rule name\n  button.btn.newRule New Rule\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    button.btn.addRule Add Rule\n  a.next Next\n\n.panel.rule.panel-out\n  h1 Rules/Extractions";
-    console.log(template);
-    $root.html(html);
-    //$root.append(jade.compile(template));
-
+    $root.append(jade.compile(template));
     this.$root = $root;
+    this.initHTML();
+    this.registerEvents();
+
 
     this.panes = {};
     return this;
+  });
+
+  OO.addMember("initHTML", function(){var self=this;
+    
+    this.$newRule    = this.$root.find('.newRule:first');
+    this.$addRule    = this.$root.find('.addRule:first');
+    this.$ruleForm   = this.$root.find('.ruleset-define-form:first');
+    this.$ruleList   = this.$root.find('.ruleset-list:first');
+    this.$rulesPanel = this.$root.find('.rulesets:first');
+    this.$rulePanel  = this.$root.find('.rule:first');
+    this.$toRule     = this.$root.find('.next');
+  });
+
+  OO.addMember("registerEvents", function(){var self=this;
+    this.$toRule.click(function() {
+      self.rulePanel();
+    });
+
+  });
+
+  OO.addMember("rulePanel", function(rule){var self=this;
+    this.$rulePanel.removeClass('panel-out')
+      .addClass('panel-in');
+  });
+
+  OO.addMember("rulesPanel", function(){var self=this;
+    this.$rulePanel.removeClass('panel-in')
+      .addClass('panel-out');
   });
 
   OO.addMember("addPane", function(name, html){var self=this;
     this.panes[name] = true;
   });
 
-  OO.addMember("showPane", function(name){var self=this;
-  });
 });
 
 //var panel = new Panel(root);

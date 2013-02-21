@@ -24,7 +24,8 @@ class Scrapbook.Main {
   }
 
   function initHTML() {
-    this.$root = $(jade.compile(HTML)()).appendTo("body");
+    this.$root = $('<div id="scrapbook" class="scrapbook"></div>').appendTo("body");
+    this.panel = new Panel(this.$root);
 
     this.$btnStartInspector = this.$root.find("#scrapbook-start-inspector");
     this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");

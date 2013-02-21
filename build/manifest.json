@@ -16,6 +16,7 @@
         "lib/mochiscript.js",
         "lib/jade.js",
         "utils.js",
+        "scrapbook/panel.js",
         "scrapbook/main.js",
         "scrapbook/inspector.js",
         "scrapbook/extractor.js",

@@ -1,11 +1,7 @@
 //var root = '<div class="scrapbook"></div>';
 class Panel {
   function initialize($root) {
-    // manage main view for side panel
-    // navigate panes
-    // dispatch commands to extension
-    var html = "<button id=\"scrapbook-inspector-enabler\">enable inspector</button> | <button id=\"scrapbook-add-extractor\">add extractor</button> | <button id=\"scrapbook-extract\">extract</button><br/>css selector: <input id=\"scrapbook-selector\"/><ul id=\"scrapbook-extractors\"></ul><ul id=\"scrapbook-results\"></ul>";
-
+    console.log('called');
     var template = <<END;
       a.close.icon-white &times;
       .panel.rulesets
@@ -21,23 +17,59 @@ class Panel {
 
       .panel.rule.panel-out
         h1 Rules/Extractions
+        .scrapbook-header
+          button#scrapbook-start-inspector Inspect
+          |  | 
+          button#scrapbook-add-extractor Add Extractor
+          |  | 
+          button#scrapbook-extract Extract
+        input#scrapbook-selector
+        ul#scrapbook-extractors
+        ul#scrapbook-extracted-results
     END
-    console.log(template);
-    $root.html(html);
-    //$root.append(jade.compile(template));
 
+    $root.append(jade.compile(template));
     this.$root = $root;
+    this.initHTML();
+    this.registerEvents();
+
 
     this.panes = {};
     return this;
+  }
+
+  function initHTML() {
+    
+    this.$newRule    = this.$root.find('.newRule:first');
+    this.$addRule    = this.$root.find('.addRule:first');
+    this.$ruleForm   = this.$root.find('.ruleset-define-form:first');
+    this.$ruleList   = this.$root.find('.ruleset-list:first');
+    this.$rulesPanel = this.$root.find('.rulesets:first');
+    this.$rulePanel  = this.$root.find('.rule:first');
+    this.$toRule     = this.$root.find('.next');
+  }
+
+  function registerEvents() {
+    this.$toRule.click(function() {
+      self.rulePanel();
+    });
+
+  }
+
+  function rulePanel(rule) {
+    this.$rulePanel.removeClass('panel-out')
+      .addClass('panel-in');
+  }
+
+  function rulesPanel() {
+    this.$rulePanel.removeClass('panel-in')
+      .addClass('panel-out');
   }
 
   function addPane(name, html) {
     this.panes[name] = true;
   }
 
-  function showPane(name) {
-  }
 }
 
 //var panel = new Panel(root);
