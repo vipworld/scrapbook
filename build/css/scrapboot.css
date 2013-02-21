@@ -7,15 +7,36 @@
  *
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
+.scrapbook-highlight-container,
+.scrapbook-highlight-extractor,
+.scrapbook-inspector {
+  position: absolute;
+  z-index: 1000;
+  display: none;
+}
+.scrapbook-highlight-container {
+  background-color: rgba(164, 198, 57, 0.5);
+  z-index: 1001;
+}
+.scrapbook-highlight-extractor {
+  background-color: rgba(255, 153, 0, 0.5);
+  z-index: 1002;
+}
+.scrapbook-inspector {
+  background-color: rgba(179, 212, 252, 0.5);
+}
 .scrapbook {
   background-color: #272B30;
   color: #C8C8C8;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   width: 350px;
-  position: absolute;
+  height: 100%;
+  position: fixed;
   top: 0px;
   left: 0px;
   overflow: hidden;
+  z-index: 2000;
+  display: none;
   /* Allow for input prepend/append in search forms */
 
   /* White icons with optional class, or on hover/focus/active states of certain elements */

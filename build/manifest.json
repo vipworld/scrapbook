@@ -12,7 +12,7 @@
     {
       "matches" : [ "http://*/*" ],
       "js" : [ "jquery-1.9.1.min.js", "mochiscript.js", "utils.js", "contentscript.js" ],
-      "css" : [ "css/main.css" ],
+      "css" : [ "css/scrapboot.css" ],
       "run_at" : "document_idle",
       "all_frames" : false
     }
