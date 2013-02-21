@@ -21,7 +21,7 @@ function stopBook() {
   $panel.hide();
 }
 
-var $panel       = $("<div id=\"scrapbook\"><button id=\"scrapbook-inspector-enabler\">enable inspector</button> | <button id=\"scrapbook-add-extractor\">add extractor</button> | <button id=\"scrapbook-extract\">extract</button><br/>css selector: <input id=\"scrapbook-selector\"/><ul id=\"scrapbook-extractors\"></ul><ul id=\"scrapbook-results\"></ul></div>");
+var $panel       = $("<div id=\"scrapbook\" class=\"scrapbook\"><button id=\"scrapbook-inspector-enabler\">enable inspector</button> | <button id=\"scrapbook-add-extractor\">add extractor</button> | <button id=\"scrapbook-extract\">extract</button><br/>css selector: <input id=\"scrapbook-selector\"/><ul id=\"scrapbook-extractors\"></ul><ul id=\"scrapbook-results\"></ul></div>");
 var $inspector   = $("<div class=\"scrapbook-inspector\"/>");
 
 var highlighters = [];
