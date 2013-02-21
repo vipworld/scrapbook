@@ -62,15 +62,14 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
   }
 
   function startInspector() {
+    this.removeHighlighters();
     this.inspector.enable();
-    //this.hide();
   }
 
   function inspect($target) {
     this.inspector.disable();
     this.$txtSelector.val($target.getPath());
     this.highlightAll();
-    //this.show();
   }
 
   function highlightAll() {

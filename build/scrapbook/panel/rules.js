@@ -47,15 +47,14 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   });
 
   OO.addMember("startInspector", function(){var self=this;
+    this.removeHighlighters();
     this.inspector.enable();
-    //this.hide();
   });
 
   OO.addMember("inspect", function($target){var self=this;
     this.inspector.disable();
     this.$txtSelector.val($target.getPath());
     this.highlightAll();
-    //this.show();
   });
 
   OO.addMember("highlightAll", function(){var self=this;
