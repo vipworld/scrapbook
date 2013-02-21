@@ -1,12 +1,13 @@
-class Scrapbook.Api {
+class Scrapbook.Panel.Api extends Scrapbook.Panel.Base {
   private {
     var HTML = <<END;
-      .scrapbook-api
-        input.key
+      .panel.api
+        h1 API Query
+        input.key(place-holder="key")
         br
-        input.secret
+        input.secret(place-holder="secret")
         br
-        input.path
+        input.path(place-holder="path")
         br
         button.query Query
         br
@@ -14,12 +15,7 @@ class Scrapbook.Api {
     END
   }
 
-  function initialize($parent) {
-    this.$parent = $parent;
-
-    this.initHTML();
-    this.registerEvents();
-  }
+	var NAME = "API";
 
   function initHTML() {
     this.$root = $(jade.compile(HTML)()).appendTo(this.$parent);

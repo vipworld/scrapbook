@@ -2,111 +2,72 @@ class Scrapbook.Main {
   private {
     var HTML = <<END;
       .scrapbook
-        .scrapbook-header
-          button#scrapbook-start-inspector Inspect
-          |  | 
-          button#scrapbook-add-extractor Add Extractor
-          |  | 
-          button#scrapbook-extract Extract
-        .scrapbook-api
-        input#scrapbook-selector
-        ul#scrapbook-extractors
-        ul#scrapbook-extracted-results
+        .actions
+          a.close.icon-white &times;
+          a.prev <-
+          |  
+          a.next ->
+        .panels
     END
   }
 
   function initialize() {
-    this.inspector = new Scrapbook.Inspector();
-    this.rules = new Rules();
-    this.highlighters = [];
-    this.extractors = [];
+    this.index  = 0;
+    this.panels = [];
 
     this.initHTML();
-    this.api = new Scrapbook.Api(this.$root);
     this.registerEvents();
+    this.initPanels();
   }
 
   function initHTML() {
-    this.$root = $('<div id="scrapbook" class="scrapbook"></div>').appendTo("body");
-    this.panel = new Panel(this.$root, this.rules);
+    this.$root = $(jade.compile(HTML)()).appendTo("body");
 
-    this.$btnStartInspector = this.$root.find("#scrapbook-start-inspector");
-    this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");
-    this.$btnExtract = this.$root.find("#scrapbook-extract");
-
-    this.$txtSelector = this.$root.find("#scrapbook-selector");
-
-    this.$ulExtractors = this.$root.find("#scrapbook-extractors");
-    this.$ulResults = this.$root.find("#scrapbook-extracted-results");
+    this.$close  = this.$root.find(".close");
+    this.$prev   = this.$root.find(".prev");
+    this.$next   = this.$root.find(".next");
+    this.$panels = this.$root.find(".panels");
   }
 
   function registerEvents() {
-    this.$btnStartInspector.click(#{ self.startInspector() });
-    this.$btnAddExtractor.click(#{ self.addExtractor() });
-    this.$btnExtract.click(#{ self.extract() });
-    this.$txtSelector.keyup(#{ self.highlightAll() });
-    this.inspector.on("inspected", #{ self.inspect($1) });
+    this.$close.click(#{});
+    this.$prev.click(#{ self.prevPanel() })
+    this.$next.click(#{ self.nextPanel() })
   }
 
-  function show() {
-    this.$root.show();
+  function initPanels() {
+    this.panels.push(new Scrapbook.Panel.Ruleset(this.$panels));
+    this.panels.push(new Scrapbook.Panel.Rules(this.$panels));
+    this.panels.push(new Scrapbook.Panel.Api(this.$panels));
+
+    this.switchToPanel("RULESET");
   }
 
-  function hide() {
-    this.$root.hide();
+  function prevPanel() {
+    this.panels[this.index].hide();
+
+    this.index--;
+    if (this.index < 0) this.index = this.panels.length - 1;
+
+    this.panels[this.index].show();
   }
 
-  function startInspector() {
-    this.inspector.enable();
-    this.hide();
+  function nextPanel() {
+    this.panels[this.index].hide();
+
+    this.index++;
+    if (this.index > (this.panels.length - 1)) this.index = 0;
+
+    this.panels[this.index].show();
   }
 
-  function inspect($target) {
-    this.inspector.disable();
-    this.$txtSelector.val($target.getPath());
-    this.highlightAll();
-    this.show();
-  }
-
-  function highlightAll() {
-    this.removeHighlighters();
-
-    $containers = this.getJqContainers();
-    for (var i=0,len=$containers.length; i<len; i++) {
-      var $cover = $(jade.compile(".scrapbook-highlight-container")()).appendTo("body");
-      this.highlight($containers.eq(i), $cover);
-      this.highlighters.push($cover);
+  function switchToPanel(name) {
+    foreach (var panel in this.panels) {
+      if (panel.NAME == name) {
+        panel.show();
+      } else {
+        panel.hide();
+      }
     }
-  }
-
-  function highlight($target, $cover) {
-    var offset = $target.offset();
-
-    $cover.css("top", offset.top);
-    $cover.css("left", offset.left);
-    $cover.width($target.width());
-    $cover.height($target.height());
-  }
-
-  function removeHighlighters() {
-    for (var i=0,len=this.highlighters.length; i<len; i++) {
-      this.highlighters[i].remove();
-    }
-  }
-
-  function addExtractor() {
-    this.extractors.push(new Scrapbook.Extractor(this.$ulExtractors));
-  }
-
-  function extract() {
-    var results = this.getJqContainers().map(#(index, c){
-      return self.extractors.map(#(e) { => e.extract($(c)) });
-    });
-
-    console.log(results);
-  }
-
-  function getJqContainers() {
-    return $(this.$txtSelector.val());
   }
 }

@@ -1,14 +1,9 @@
-$m.Class.extend("Scrapbook.Api", function(KLASS, OO){
+Scrapbook.Panel.Base.extend("Scrapbook.Panel.Api", function(KLASS, OO){
   
-    var HTML = ".scrapbook-api\n  input.key\n  br\n  input.secret\n  br\n  input.path\n  br\n  button.query Query\n  br\n  pre.res";
+    var HTML = ".panel.api\n  h1 API Query\n  input.key(place-holder=\"key\")\n  br\n  input.secret(place-holder=\"secret\")\n  br\n  input.path(place-holder=\"path\")\n  br\n  button.query Query\n  br\n  pre.res";
   
 
-  OO.addMember("initialize", function($parent){var self=this;
-    this.$parent = $parent;
-
-    this.initHTML();
-    this.registerEvents();
-  });
+	OO.addMember("NAME", "API");
 
   OO.addMember("initHTML", function(){var self=this;
     this.$root = $(jade.compile(HTML)()).appendTo(this.$parent);

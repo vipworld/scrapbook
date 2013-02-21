@@ -14,12 +14,10 @@ chrome.extension.onMessage.addListener(
 );
 
 function runBook() {
-  scrapbook.show();
   $('body').addClass('scrap-run');
 }
 
 function stopBook() {
-  scrapbook.hide();
   $('body').removeClass('scrap-run');
 }
 

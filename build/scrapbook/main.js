@@ -1,101 +1,78 @@
 $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   
-    var HTML = ".scrapbook\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  .scrapbook-api\n  input#scrapbook-selector\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results";
+    var HTML = ".scrapbook\n  .actions\n    a.close.icon-white &times;\n    a.prev <-\n    |  \n    a.next ->\n  .panels";
   
 
   OO.addMember("initialize", function(){var self=this;
+<<<<<<< HEAD
     this.inspector = new Scrapbook.Inspector();
     this.rules = new Rules();
     this.highlighters = [];
     this.extractors = [];
+=======
+    this.index  = 0;
+    this.panels = [];
+>>>>>>> improved panels
 
     this.initHTML();
-    this.api = new Scrapbook.Api(this.$root);
     this.registerEvents();
+    this.initPanels();
   });
 
   OO.addMember("initHTML", function(){var self=this;
+<<<<<<< HEAD
     this.$root = $('<div id="scrapbook" class="scrapbook"></div>').appendTo("body");
     this.panel = new Panel(this.$root, this.rules);
+=======
+    this.$root = $(jade.compile(HTML)()).appendTo("body");
+>>>>>>> improved panels
 
-    this.$btnStartInspector = this.$root.find("#scrapbook-start-inspector");
-    this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");
-    this.$btnExtract = this.$root.find("#scrapbook-extract");
-
-    this.$txtSelector = this.$root.find("#scrapbook-selector");
-
-    this.$ulExtractors = this.$root.find("#scrapbook-extractors");
-    this.$ulResults = this.$root.find("#scrapbook-extracted-results");
+    this.$close  = this.$root.find(".close");
+    this.$prev   = this.$root.find(".prev");
+    this.$next   = this.$root.find(".next");
+    this.$panels = this.$root.find(".panels");
   });
 
   OO.addMember("registerEvents", function(){var self=this;
-    this.$btnStartInspector.click(function($1,$2,$3){ self.startInspector() });
-    this.$btnAddExtractor.click(function($1,$2,$3){ self.addExtractor() });
-    this.$btnExtract.click(function($1,$2,$3){ self.extract() });
-    this.$txtSelector.keyup(function($1,$2,$3){ self.highlightAll() });
-    this.inspector.on("inspected", function($1,$2,$3){ self.inspect($1) });
+    this.$close.click(function($1,$2,$3){});
+    this.$prev.click(function($1,$2,$3){ self.prevPanel() })
+    this.$next.click(function($1,$2,$3){ self.nextPanel() })
   });
 
-  OO.addMember("show", function(){var self=this;
-    this.$root.show();
+  OO.addMember("initPanels", function(){var self=this;
+    this.panels.push(new Scrapbook.Panel.Ruleset(this.$panels));
+    this.panels.push(new Scrapbook.Panel.Rules(this.$panels));
+    this.panels.push(new Scrapbook.Panel.Api(this.$panels));
+
+    this.switchToPanel("RULESET");
   });
 
-  OO.addMember("hide", function(){var self=this;
-    this.$root.hide();
+  OO.addMember("prevPanel", function(){var self=this;
+    this.panels[this.index].hide();
+
+    this.index--;
+    if (this.index < 0) this.index = this.panels.length - 1;
+
+    this.panels[this.index].show();
   });
 
-  OO.addMember("startInspector", function(){var self=this;
-    this.inspector.enable();
-    this.hide();
+  OO.addMember("nextPanel", function(){var self=this;
+    this.panels[this.index].hide();
+
+    this.index++;
+    if (this.index > (this.panels.length - 1)) this.index = 0;
+
+    this.panels[this.index].show();
   });
 
-  OO.addMember("inspect", function($target){var self=this;
-    this.inspector.disable();
-    this.$txtSelector.val($target.getPath());
-    this.highlightAll();
-    this.show();
-  });
-
-  OO.addMember("highlightAll", function(){var self=this;
-    this.removeHighlighters();
-
-    $containers = this.getJqContainers();
-    for (var i=0,len=$containers.length; i<len; i++) {
-      var $cover = $(jade.compile(".scrapbook-highlight-container")()).appendTo("body");
-      this.highlight($containers.eq(i), $cover);
-      this.highlighters.push($cover);
+  OO.addMember("switchToPanel", function(name){var self=this;
+    for (var _i_0=0,panel=null,_list_0=this.panels,_len_0=_list_0.length;(panel=_list_0[_i_0])||_i_0<_len_0;_i_0++) {
+      if (panel.NAME == name) {
+        panel.show();
+      } else {
+        panel.hide();
+      }
     }
-  });
-
-  OO.addMember("highlight", function($target, $cover){var self=this;
-    var offset = $target.offset();
-
-    $cover.css("top", offset.top);
-    $cover.css("left", offset.left);
-    $cover.width($target.width());
-    $cover.height($target.height());
-  });
-
-  OO.addMember("removeHighlighters", function(){var self=this;
-    for (var i=0,len=this.highlighters.length; i<len; i++) {
-      this.highlighters[i].remove();
-    }
-  });
-
-  OO.addMember("addExtractor", function(){var self=this;
-    this.extractors.push(new Scrapbook.Extractor(this.$ulExtractors));
-  });
-
-  OO.addMember("extract", function(){var self=this;
-    var results = this.getJqContainers().map(function(index, c){
-      return self.extractors.map(function(e) { return  e.extract($(c)) });
-    });
-
-    console.log(results);
-  });
-
-  OO.addMember("getJqContainers", function(){var self=this;
-    return $(this.$txtSelector.val());
   });
 });
 
