@@ -1,13 +1,28 @@
 html
   head
     link(href="../css/scrapboot.css", rel="stylesheet")
+    script(type="text/javascript", src="../jquery-1.9.1.min.js")
   body
     .scrapbook
+      a.close x
       .rulesets
         h1 Existing Rulesets
         ul
           li replace me with rule name
-        a.next Next
-        input(type="text", placeholder="name")
-        input(type="text", placeholder="factual table id (optional)")
-      .ruleset
+      button.btn.newRule New Rule
+      .ruleset-define
+        form.ruleset-define-form(style="display: none;")
+          input(type="text", placeholder="name")
+          input(type="text", placeholder="factual table id (optional)")
+          button.btn.addRule Add Rule
+      a.next Next
+
+      .ruleset-details
+    script(type="text/javascript")
+      
+      $('button.newRule').click(function() {
+        $('.ruleset-define-form:first').show();
+      });
+      $('button.addRule').click(function(e) {
+        e.preventDefault();
+      });
