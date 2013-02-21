@@ -62,6 +62,21 @@ $m.Class.extend("Panel", function(KLASS, OO){
     // stub
   });
 
+  OO.addMember("getExtensionStorage", function(key, cb){var self=this;
+    chrome.extension.sendRequest({ 
+      method: "getLocalStorage",
+      key: key
+    }, cb);
+  });
+
+  OO.addMember("setExtensionStorage", function(key, value){var self=this;
+    chrome.extension.sendRequest({ 
+      method: "setLocalStorage",
+      key: key,
+      value: value
+    });
+  });
+
   OO.addMember("saveRule", function(vals){var self=this;
     var html = '';
     html += '<li>'

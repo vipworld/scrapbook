@@ -9,13 +9,19 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   }
 });
 
+if(!localStorage.rules) localStorage.rules = {};
+var rules = localStorage.rules;
+
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-  if (request.method == "getLocalStorage")
-    sendResponse({data: localStorage[request.key]});
-  else if (request.method == "setLocalStorage")
-    localStorage[request.key] = request.value;
-  else
-    sendResponse({}); 
+  if (request.method == "getRule") {
+    sendResponse({ data: rules[request.key] });
+  } else if (request.method == "getRules") {
+    sendResponse({ data: rules });
+  } else if (request.method == "setRule") {
+    rules[request.key] = request.value;
+  } else {
+    sendResponse({error: 'requires method'}); 
+  }
 });
 
 function initScrapbook(id) {
