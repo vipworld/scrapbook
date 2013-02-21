@@ -6,7 +6,7 @@ class Panel {
     // dispatch commands to extension
     var html = "<button id=\"scrapbook-inspector-enabler\">enable inspector</button> | <button id=\"scrapbook-add-extractor\">add extractor</button> | <button id=\"scrapbook-extract\">extract</button><br/>css selector: <input id=\"scrapbook-selector\"/><ul id=\"scrapbook-extractors\"></ul><ul id=\"scrapbook-results\"></ul>";
 
-    var template <<END;
+    var template = <<END;
       a.close.icon-white &times;
       .panel.rulesets
         h1 Existing Rulesets
