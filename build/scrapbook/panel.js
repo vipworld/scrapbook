@@ -68,7 +68,7 @@ $m.Class.extend("Panel", function(KLASS, OO){
     html += '<li>'
       + vals[0].value
       + '</li>';
-    this.$ruleList.html(html);
+    this.$ruleList.append(html);
   });
  
 

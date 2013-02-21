@@ -93,7 +93,7 @@ class Panel {
     html += '<li>'
       + vals[0].value
       + '</li>';
-    this.$ruleList.html(html);
+    this.$ruleList.append(html);
   }
  
 

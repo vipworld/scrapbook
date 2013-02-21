@@ -9,21 +9,8 @@
  */
 
 @panel-width: 350px;
-.scrapbook-highlight-container, .scrapbook-highlight-extractor, .scrapbook-inspector {
-	position: absolute;
-  z-index: 1000;
-}
-
-.scrapbook-highlight-container {
-  background-color: rgba(164,198,57,0.5);
-  z-index: 1001;
-}
-.scrapbook-highlight-extractor {
-  background-color: rgba(255,153,00,0.5);
-  z-index: 1002;
-}
-.scrapbook-inspector {
-  background-color: rgba(179,212,252,0.5);
+.scrap-run {
+  padding-left: @panel-width !important;
 }
 .scrapbook {
   background-color: #272B30;
@@ -35,6 +22,7 @@
   top: 0px;
   left: 0px;
   overflow: hidden;
+  text-align: left;
   z-index: 2000;
 
   .panel {
@@ -55,6 +43,23 @@
     left: 0px;
     transition-property: left;
     transition-duration: 1s;
+  }
+
+  .scrapbook-highlight-container, .scrapbook-highlight-extractor, .scrapbook-inspector {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  .scrapbook-highlight-container {
+    background-color: rgba(164,198,57,0.5);
+    z-index: 1001;
+  }
+  .scrapbook-highlight-extractor {
+    background-color: rgba(255,153,00,0.5);
+    z-index: 1002;
+  }
+  .scrapbook-inspector {
+    background-color: rgba(179,212,252,0.5);
   }
 
   .clearfix {
