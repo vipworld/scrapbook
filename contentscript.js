@@ -24,20 +24,54 @@ function stopBook() {
   $highlighter.hide();
 }
 
-
-var $panel       = $("<div id=\"scrapbook\">css selector: <input id=\"scrapbook-selector\"/></div>");
+var $panel       = $("<div id=\"scrapbook\"><button id=\"scrapbook-inspector\">enable inspector</button><br/>css selector: <input id=\"scrapbook-selector\"/></div>");
 var $highlighter = $("<div class=\"scrapbook-highlight\"/>");
 
 $("body").append($panel);
 $("body").append($highlighter);
 
+var inspectorEnabled = false;
+var $inspectorEnabler = $("#scrapbook-inspector");
 var $cssSelector = $("#scrapbook-selector");
+var $current = $(window);
+
+$(window).mousemove(function (event) {
+  $highlighter.hide();
+  highlight($(document.elementFromPoint(event.pageX, event.pageY)));
+});
+
 $cssSelector.keyup(function () {
-  var $selector = $($cssSelector.val()).eq(0);
+  $highlighter.hide();
+  highlight($($cssSelector.val()).eq(0));
+});
+
+$inspectorEnabler.click(function () {
+  inspectorEnabled = !$inspectorEnabler.data("enable");
+  $inspectorEnabler.data("enable", inspectorEnabled);
+
+  if (inspectorEnabled) {
+    $inspectorEnabler.text("disable inspector");
+  } else {
+    $inspectorEnabler.text("enable inspector");
+  }
+});
+
+$highlighter.click(function () {
+  $cssSelector.val($current.getPath());
+  $inspectorEnabler.click();
+});
+
+function highlight($selector) {
+  if (!inspectorEnabled) return;
+
+  $current = $selector;
+
   var offset = $selector.offset();
 
   $highlighter.css("top", offset.top);
   $highlighter.css("left", offset.left);
   $highlighter.width($selector.width());
   $highlighter.height($selector.height());
-});
+
+  $highlighter.show();
+}
