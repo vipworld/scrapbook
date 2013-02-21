@@ -37,7 +37,7 @@ var $current = $(window);
 
 $(window).mousemove(function (event) {
   $highlighter.hide();
-  highlight($(document.elementFromPoint(event.pageX, event.pageY)));
+  highlight($(document.elementFromPoint(event.pageX - window.scrollX, event.pageY - window.scrollY)));
 });
 
 $cssSelector.keyup(function () {
