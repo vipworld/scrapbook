@@ -1,24 +1,28 @@
 <html>
 <head>
-  <link rel="stylesheet href="css/scrapboot.css">
+  <link rel="stylesheet" href="css/scrapboot.css">
   <title>Table Setting</title>
-  </head>
+</head>
 <body>
   <div class="scrapbook">
     <div class="table_input">
-      <span><h2>Settings</h2></span>
+      <p class="lead"><h2>Submit to Factual</h2></p>
       <div class="key">
-        <label class="key_input_text">Key</label></div>
-        <input id="key_value" type="key" tabindex="1"></div>
+        <label class="key_input_text">Key</label>
+        <input id="key_value" type="key" tabindex="1" class="span3">
       </div>
+<p>
       <div class="secret">
-        <label class="secret_input_text">Secret</label></div>
-        <input id="secret_value" type="secret" tabindex="2"></div>
+        <label class="secret_input_text">Secret</label>
+        <input id="secret_value" type="secret" tabindex="2">
       </div>
-    <p>
+      <p>
       <div id='submit'>
-        <button type='submit' name=".save" id=".save" onclick='save_options()'>Upload to Table</button>
+        <button class="btn btn-primary" type='submit' name=".save" id=".save" onclick='save_options()'>Upload to Table</button>
 	  </div>
+<p>
+	  <ul class="nav nav-list">
+        <li class="active"><a href="#"><i class="icon-home icon-white"></i>Back</a></li>
     </div>
   </div>
 </body>
