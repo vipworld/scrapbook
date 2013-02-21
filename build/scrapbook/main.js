@@ -4,15 +4,8 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   
 
   OO.addMember("initialize", function(){var self=this;
-<<<<<<< HEAD
-    this.inspector = new Scrapbook.Inspector();
-    this.rules = new Rules();
-    this.highlighters = [];
-    this.extractors = [];
-=======
     this.index  = 0;
     this.panels = [];
->>>>>>> improved panels
 
     this.initHTML();
     this.registerEvents();
@@ -20,12 +13,7 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   });
 
   OO.addMember("initHTML", function(){var self=this;
-<<<<<<< HEAD
-    this.$root = $('<div id="scrapbook" class="scrapbook"></div>').appendTo("body");
-    this.panel = new Panel(this.$root, this.rules);
-=======
     this.$root = $(jade.compile(HTML)()).appendTo("body");
->>>>>>> improved panels
 
     this.$close  = this.$root.find(".close");
     this.$prev   = this.$root.find(".prev");

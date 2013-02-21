@@ -73,7 +73,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.removeHighlighters();
     this.$ulPreviews.html("");
 
-    $containers = this.getJqContainers();
+    var $containers = this.getJqContainers();
     $containers.each(#{ new Scrapbook.Preview(self.$ulPreviews, $($2)) });
 
     for (var i=0,len=$containers.length; i<len; i++) {
@@ -103,11 +103,22 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
   }
 
   function extract() {
-    var results = this.getJqContainers().map(#(index, c){
-      return self.extractors.map(#(e) { => e.extract($(c)) });
-    });
+    var $containers = this.getJqContainers();
 
-    console.log(results);
+    var html = ""
+
+    foreach (var container in $containers) {
+      var result = self.extractors.map(#{ => $1.extract($(container)) });
+      console.log(result);
+
+      html += "<li>";
+      result.forEach(#{
+        html += $1[0] + ": " + $1[1] + "<br/>";
+      });
+      html += "</li>";
+    }
+
+    this.$ulResults.html(html);
   }
 
   function getJqContainers() {

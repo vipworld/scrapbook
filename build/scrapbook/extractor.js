@@ -30,7 +30,7 @@ $m.Class.extend("Scrapbook.Extractor", function(KLASS, OO){
       extracted = $subTarget.text();
     }
 
-    return [ ]
+    return [ extractor.name, extracted ];
   });
 
   OO.addMember("toHash", function(){var self=this;

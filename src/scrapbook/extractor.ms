@@ -41,7 +41,7 @@ class Scrapbook.Extractor {
       extracted = $subTarget.text();
     }
 
-    return [ ]
+    return [ extractor.name, extracted ];
   }
 
   function toHash() {
