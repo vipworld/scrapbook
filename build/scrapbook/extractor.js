@@ -3,9 +3,10 @@ $m.Class.extend("Scrapbook.Extractor", function(KLASS, OO){
     var HTML = "li.scrapbook-extractor\n  dt name:\n  dd\n    input.scrapbook-extractor-name\n  dt regexp:\n  dd\n    input.scrapbook-extractor-regexp\n  dt dom:\n  dd\n    input.scrapbook-extractor-dom";
   
 
-  OO.addMember("initialize", function($parent){var self=this;
+  OO.addMember("initialize", function($parent, hash){var self=this;
     this.$parent = $parent;
     this.initHTML();
+    this.populateByHash(hash);
   });
 
   OO.addMember("initHTML", function(){var self=this;
@@ -16,6 +17,14 @@ $m.Class.extend("Scrapbook.Extractor", function(KLASS, OO){
     this.$txtDom = this.$root.find(".scrapbook-extractor-dom");
 
     this.$cover = $(jade.compile(".scrapbook-highlight-extractor")()).appendTo("body");
+  });
+
+  OO.addMember("populateByHash", function(hash){var self=this;
+    hash = hash || {};
+
+    if (hash.name) this.$txtName.val(hash.name);
+    if (hash.regexp) this.$txtRegexp.val(hash.regexp);
+    if (hash.dom) this.$txtDom.val(hash.dom);
   });
 
   OO.addMember("extract", function($target){var self=this;

@@ -3,12 +3,8 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
     var HTML = <<END;
       .panel.ruleset
         h1 Existing Rulesets
-        ul.ruleset-list.unstyled
-        button.btn.newRule New Rule
-        form.ruleset-define-form(style="display: none;")
-          input(type="text", name="name", placeholder="name")
-          input(type="text", name="table", placeholder="factual table id (optional)")
-          button.btn.addRule Add Rule
+        ul.ruleset
+        button.btn.newRules New Rules
     END
   }
 
@@ -17,40 +13,30 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
   function initHTML() {
     this.$root = $(jade.compile(HTML)()).appendTo(this.$parent);
 
-    this.$newRule  = this.$root.find('.newRule:first');
-    this.$addRule  = this.$root.find('.addRule:first');
-    this.$ruleForm = this.$root.find('.ruleset-define-form:first');
-    this.$ruleList = this.$root.find('.ruleset-list:first');
+    this.$newRule  = this.$root.find('.newRules:first');
+    this.$ruleList = this.$root.find('.ruleset:first');
+
+    this.populate();
   }
 
   function registerEvents() {
     this.$newRule.click(function() {
-      self.$newRule.hide();
-      self.$ruleForm.show();
     });
-
-    this.$addRule.click(function(e) {
-      e.preventDefault();
-      var form = $(e.target).parents('form');
-      var vals = form.serializeArray();
-      self.saveRule(vals);
-
-      self.$newRule.show();
-      self.$ruleForm.fadeOut();
+    chrome.storage.onChanged.addListener(#{
+      self.populate();
     });
   }
 
-  function saveRule(vals) {
-    var html = '';
-    html += '<li>'
-      + '<a href="javascript:void(0)">'
-      + vals[0].value
-      + '</a>'
-      + '</li>';
-    this.$ruleList.append(html);
-  }
+  function populate() {
+    chrome.storage.local.get("ruleset", function(obj) {
+      self.ruleset = obj.ruleset || {};
 
-  function clearForm() {
-    // stub
+      var html = "";
+      for (var key in self.ruleset) {
+        html += "<li>" + key + "</li>"
+      }
+      self.$ruleList.html(html);
+    });
+
   }
 }

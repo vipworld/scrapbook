@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   
-    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  input#scrapbook-selector\n  ul#scrapbook-previews\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results";
+    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n    |  | \n    button#scrapbook-save Save\n  input#scrapbook-selector\n  ul#scrapbook-previews\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results";
   
 
 	OO.addMember("NAME", "RULES");
@@ -20,6 +20,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$btnStartInspector = this.$root.find("#scrapbook-start-inspector");
     this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");
     this.$btnExtract = this.$root.find("#scrapbook-extract");
+    this.$btnSave = this.$root.find("#scrapbook-save");
 
     this.$txtSelector = this.$root.find("#scrapbook-selector");
 
@@ -32,6 +33,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$btnStartInspector.click(function($1,$2,$3){ self.startInspector() });
     this.$btnAddExtractor.click(function($1,$2,$3){ self.addExtractor() });
     this.$btnExtract.click(function($1,$2,$3){ self.extract() });
+    this.$btnSave.click(function($1,$2,$3){ self.save() });
     this.$txtSelector.keyup(function($1,$2,$3){ self.highlightAll() });
     this.inspector.on("inspected", function($1,$2,$3){ self.inspect($1) });
   });
@@ -110,6 +112,32 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
 
   OO.addMember("getJqContainers", function(){var self=this;
     return $(this.$txtSelector.val());
+  });
+
+  OO.addMember("save", function(){var self=this;
+    var name = prompt("Enter Rules' Name:", "Name");
+    chrome.storage.local.get("ruleset", function(ruleset) {
+      ruleset = ruleset || {};
+      ruleset[name] = self.toHash();
+      chrome.storage.local.set({ "ruleset": ruleset }, function($1,$2,$3){
+        alert("Saved!");
+      });
+    });
+  });
+
+  OO.addMember("toHash", function(){var self=this;
+    return {
+      selector: this.$txtSelector.val(),
+      extractors: this.extractors.map(function($1,$2,$3){ return  $1.toHash() })
+    };
+  });
+
+  OO.addMember("fromHash", function(hash){var self=this;
+    this.$txtSelector.val(hash["selector"]);
+    this.extractors.forEach(function($1,$2,$3){ $1.remove() });
+    hash["extractors"].forEach(function($1,$2,$3){
+      self.extractors.push(new Scrapbook.Extractions(self.$ulExtractors, $1));
+    })
   });
 });
 

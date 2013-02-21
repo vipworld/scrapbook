@@ -9,6 +9,8 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           button#scrapbook-add-extractor Add Extractor
           |  | 
           button#scrapbook-extract Extract
+          |  | 
+          button#scrapbook-save Save
         input#scrapbook-selector
         ul#scrapbook-previews
         ul#scrapbook-extractors
@@ -33,6 +35,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$btnStartInspector = this.$root.find("#scrapbook-start-inspector");
     this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");
     this.$btnExtract = this.$root.find("#scrapbook-extract");
+    this.$btnSave = this.$root.find("#scrapbook-save");
 
     this.$txtSelector = this.$root.find("#scrapbook-selector");
 
@@ -45,6 +48,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$btnStartInspector.click(#{ self.startInspector() });
     this.$btnAddExtractor.click(#{ self.addExtractor() });
     this.$btnExtract.click(#{ self.extract() });
+    this.$btnSave.click(#{ self.save() });
     this.$txtSelector.keyup(#{ self.highlightAll() });
     this.inspector.on("inspected", #{ self.inspect($1) });
   }
@@ -123,5 +127,31 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
 
   function getJqContainers() {
     return $(this.$txtSelector.val());
+  }
+
+  function save() {
+    var name = prompt("Enter Rules' Name:", "Name");
+    chrome.storage.local.get("ruleset", function(ruleset) {
+      ruleset = ruleset || {};
+      ruleset[name] = self.toHash();
+      chrome.storage.local.set({ "ruleset": ruleset }, #{
+        alert("Saved!");
+      });
+    });
+  }
+
+  function toHash() {
+    return {
+      selector: this.$txtSelector.val(),
+      extractors: this.extractors.map(#{ => $1.toHash() })
+    };
+  }
+
+  function fromHash(hash) {
+    this.$txtSelector.val(hash["selector"]);
+    this.extractors.forEach(#{ $1.remove() });
+    hash["extractors"].forEach(#{
+      self.extractors.push(new Scrapbook.Extractions(self.$ulExtractors, $1));
+    })
   }
 }

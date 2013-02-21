@@ -3,7 +3,7 @@ chrome.extension.onMessage.addListener(
     if (request.method) {
       switch (request.method) {
         case "runBook":
-          runBook();
+          runBook(request.storage);
           break;
         case "stopBook":
           stopBook();
@@ -13,7 +13,10 @@ chrome.extension.onMessage.addListener(
   }
 );
 
-function runBook() {
+var scrapbook;
+
+function runBook(storage) {
+  if (!scrapbook) scrapbook = new Scrapbook.Main();
   $('body').addClass('scrap-run');
 }
 
@@ -21,4 +24,3 @@ function stopBook() {
   $('body').removeClass('scrap-run');
 }
 
-var scrapbook = new Scrapbook.Main();

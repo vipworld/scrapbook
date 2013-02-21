@@ -14,9 +14,10 @@ class Scrapbook.Extractor {
     END
   }
 
-  function initialize($parent) {
+  function initialize($parent, hash) {
     this.$parent = $parent;
     this.initHTML();
+    this.populateByHash(hash);
   }
 
   function initHTML() {
@@ -27,6 +28,14 @@ class Scrapbook.Extractor {
     this.$txtDom = this.$root.find(".scrapbook-extractor-dom");
 
     this.$cover = $(jade.compile(".scrapbook-highlight-extractor")()).appendTo("body");
+  }
+
+  function populateByHash(hash) {
+    hash = hash || {};
+
+    if (hash.name) this.$txtName.val(hash.name);
+    if (hash.regexp) this.$txtRegexp.val(hash.regexp);
+    if (hash.dom) this.$txtDom.val(hash.dom);
   }
 
   function extract($target) {
