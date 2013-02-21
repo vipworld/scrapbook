@@ -1,5 +1,5 @@
-body {
-	margin-left: 350px;
+body.scrap-open {
+	padding-left: 350px;
 }
 .factual-tools {
 	position: absolute;
