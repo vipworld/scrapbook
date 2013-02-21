@@ -5,7 +5,11 @@ $m.Class.extend("Panel", function(KLASS, OO){
     // navigate panes
     // dispatch commands to extension
     var html = "<button id=\"scrapbook-inspector-enabler\">enable inspector</button> | <button id=\"scrapbook-add-extractor\">add extractor</button> | <button id=\"scrapbook-extract\">extract</button><br/>css selector: <input id=\"scrapbook-selector\"/><ul id=\"scrapbook-extractors\"></ul><ul id=\"scrapbook-results\"></ul>";
+
+    var template "a.close.icon-white &times;\n.panel.rulesets\n  h1 Existing Rulesets\n  ul.ruleset-list\n    li replace me with rule name\n  button.btn.newRule New Rule\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    button.btn.addRule Add Rule\n  a.next Next\n\n.panel.rule.panel-out\n  h1 Rules/Extractions";
+    console.log(template);
     $root.html(html);
+    //$root.append(jade.compile(template));
 
     this.$root = $root;
 
