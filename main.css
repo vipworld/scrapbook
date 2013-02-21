@@ -21,7 +21,7 @@ body.scrap-open {
   display: none;
 }
 
-.scrapbook-highlight {
+.scrapbook-highlight, .scrapbook-inspector {
 	position: absolute;
   background-color: rgba(179,212,252,0.5);
   z-index: 1000;

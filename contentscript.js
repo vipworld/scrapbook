@@ -26,9 +26,11 @@ function stopBook() {
 
 var $panel       = $("<div id=\"scrapbook\"><button id=\"scrapbook-inspector\">enable inspector</button><br/>css selector: <input id=\"scrapbook-selector\"/></div>");
 var $highlighter = $("<div class=\"scrapbook-highlight\"/>");
+var $inspector   = $("<div class=\"scrapbook-inspector\"/>");
 
 $("body").append($panel);
 $("body").append($highlighter);
+$("body").append($inspector);
 
 var inspectorEnabled = false;
 var $inspectorEnabler = $("#scrapbook-inspector");
@@ -36,42 +38,44 @@ var $cssSelector = $("#scrapbook-selector");
 var $current = $(window);
 
 $(window).mousemove(function (event) {
-  $highlighter.hide();
-  highlight($(document.elementFromPoint(event.pageX - window.scrollX, event.pageY - window.scrollY)));
+  inspect(event.pageX - window.scrollX, event.pageY - window.scrollY);
 });
 
 $cssSelector.keyup(function () {
-  $highlighter.hide();
-  highlight($($cssSelector.val()).eq(0));
+  highlight($($cssSelector.val()).eq(0), $highlighter);
 });
 
 $inspectorEnabler.click(function () {
-  inspectorEnabled = !$inspectorEnabler.data("enable");
-  $inspectorEnabler.data("enable", inspectorEnabled);
-
-  if (inspectorEnabled) {
-    $inspectorEnabler.text("disable inspector");
-  } else {
-    $inspectorEnabler.text("enable inspector");
-  }
+  $panel.hide();
+  $highlighter.hide();
+  inspectorEnabled = true;
 });
 
-$highlighter.click(function () {
+$inspector.click(function () {
   $cssSelector.val($current.getPath());
-  $inspectorEnabler.click();
+  highlight($($cssSelector.val()).eq(0), $inspector);
+  highlight($($cssSelector.val()).eq(0), $highlighter);
+  $panel.show();
+  inspectorEnabled = false;
 });
 
-function highlight($selector) {
+function inspect(x, y) {
+  $inspector.hide();
+
   if (!inspectorEnabled) return;
 
+  highlight($(document.elementFromPoint(x, y)), $inspector);
+}
+
+function highlight($selector, $cover) {
   $current = $selector;
 
   var offset = $selector.offset();
 
-  $highlighter.css("top", offset.top);
-  $highlighter.css("left", offset.left);
-  $highlighter.width($selector.width());
-  $highlighter.height($selector.height());
+  $cover.css("top", offset.top);
+  $cover.css("left", offset.left);
+  $cover.width($selector.width());
+  $cover.height($selector.height());
 
-  $highlighter.show();
+  $cover.show();
 }
