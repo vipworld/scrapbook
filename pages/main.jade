@@ -2,6 +2,7 @@ html
   head
     link(href="../css/scrapboot.css", rel="stylesheet")
     script(type="text/javascript", src="../jquery-1.9.1.min.js")
+    script(type="text/javascript", src="../mochiscript.js")
   body
     .scrapbook
       a.close.icon-white &times;
@@ -40,11 +41,17 @@ html
         }
 
         function setPanelHeight() {
-          console.log('setting height');
           $root.height($(document).height());
         }
 
         function clearForm() {
+        }
+        function saveRule(vals) {
+          var html = '';
+          html += '<li>'
+            + vals[0].value
+            + '</li>';
+          $ruleList.html(html);
         }
 
         $newRule.click(function() {
@@ -54,6 +61,10 @@ html
 
         $addRule.click(function(e) {
           e.preventDefault();
+          var form = $(e.target).parents('form');
+          var vals = form.serializeArray();
+          saveRule(vals);
+          clearForm();
 
           $newRule.show();
           $ruleForm.fadeOut();

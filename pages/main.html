@@ -1,4 +1,4 @@
-<html><head><link href="../css/scrapboot.css" rel="stylesheet"/><script type="text/javascript" src="../jquery-1.9.1.min.js"></script></head><body><div class="scrapbook"><a class="close icon-white">&times;</a><div class="panel rulesets"><h1>Existing Rulesets</h1><ul class="ruleset-list"><li>replace me with rule name</li></ul><button class="btn newRule">New Rule</button><form style="display: none;" class="ruleset-define-form"><input type="text" name="name" placeholder="name"/><input type="text" name="table" placeholder="factual table id (optional)"/><button class="btn addRule">Add Rule</button></form><a class="next">Next</a></div><div class="panel rule panel-out"><h1>Rules/Extractions</h1></div></div><script type="text/javascript">$(function() {
+<html><head><link href="../css/scrapboot.css" rel="stylesheet"/><script type="text/javascript" src="../jquery-1.9.1.min.js"></script><script type="text/javascript" src="../mochiscript.js"></script></head><body><div class="scrapbook"><a class="close icon-white">&times;</a><div class="panel rulesets"><h1>Existing Rulesets</h1><ul class="ruleset-list"><li>replace me with rule name</li></ul><button class="btn newRule">New Rule</button><form style="display: none;" class="ruleset-define-form"><input type="text" name="name" placeholder="name"/><input type="text" name="table" placeholder="factual table id (optional)"/><button class="btn addRule">Add Rule</button></form><a class="next">Next</a></div><div class="panel rule panel-out"><h1>Rules/Extractions</h1></div></div><script type="text/javascript">$(function() {
   var $root       = $('.scrapbook:first');
   var $newRule    = $root.find('.newRule:first');
   var $addRule    = $root.find('.addRule:first');
@@ -19,11 +19,17 @@
   }
   
   function setPanelHeight() {
-    console.log('setting height');
     $root.height($(document).height());
   }
   
   function clearForm() {
+  }
+  function saveRule(vals) {
+    var html = '';
+    html += '<li>'
+      + vals[0].value
+      + '</li>';
+    $ruleList.html(html);
   }
   
   $newRule.click(function() {
@@ -33,6 +39,10 @@
   
   $addRule.click(function(e) {
     e.preventDefault();
+    var form = $(e.target).parents('form');
+    var vals = form.serializeArray();
+    saveRule(vals);
+    clearForm();
     
     $newRule.show();
     $ruleForm.fadeOut();

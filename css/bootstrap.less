@@ -8,11 +8,12 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
+@panel-width: 350px;
 .scrapbook {
   background-color: #272B30;
   color: #C8C8C8;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  width: 350px;
+  width: @panel-width;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -27,7 +28,7 @@
   }
 
   .panel-out {
-    left: 350px;
+    left: @panel-width;
     transition-property: left;
     transition-duration: 1s;
   }
