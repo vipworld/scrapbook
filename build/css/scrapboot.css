@@ -36,7 +36,6 @@
   left: 0px;
   overflow: hidden;
   z-index: 2000;
-  display: none;
   /* Allow for input prepend/append in search forms */
 
   /* White icons with optional class, or on hover/focus/active states of certain elements */

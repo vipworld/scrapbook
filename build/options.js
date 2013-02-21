@@ -3,7 +3,6 @@ function save_options() {
   localStorage["last_key"] = table_key;
   var secret_value = document.getElementById("secret_value").value;
   localStorage["last_secret"] = secret_value;
-  alert("Submitted " + localStorage["last_key"])
 };
 
 function restore_options() {
