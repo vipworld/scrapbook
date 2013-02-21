@@ -10,9 +10,16 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 
 function initScrapbook(id) {
-	chrome.tabs.executeScript(id, { code: "runBook();" });
-	//chrome.tabs.insertCSS(null, { file: "main.css" });
+  chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.sendMessage(tab.id, { method: "runBook" }, function(response) {
+      console.log(response.farewell);
+    });
+  });
 }
 function stopScrapbook(id) {
-	chrome.tabs.executeScript(id, { code: "stopBook();" });
+  chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.sendMessage(tab.id, { method: "stopBook" }, function(response) {
+      console.log(response.farewell);
+    });
+  });
 }
