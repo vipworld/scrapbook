@@ -19,6 +19,7 @@
         "lib/oauth.js",
         "utils.js",
         "scrapbook/panel.js",
+        "scrapbook/rules.js",
         "scrapbook/main.js",
         "scrapbook/inspector.js",
         "scrapbook/extractor.js",

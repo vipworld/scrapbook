@@ -14,11 +14,15 @@ var rules = localStorage.rules;
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
   if (request.method == "getRule") {
-    sendResponse({ data: rules[request.key] });
+    sendResponse(rules[request.key]);
   } else if (request.method == "getRules") {
-    sendResponse({ data: rules });
+    sendResponse(rules);
   } else if (request.method == "setRule") {
     rules[request.key] = request.value;
+  } else if (request.method == "clearRules") {
+    rules = {};
+  } else if (request.method == "deleteRule") {
+    delete rules[request.key];
   } else {
     sendResponse({error: 'requires method'}); 
   }

@@ -1,9 +1,10 @@
 $m.Class.extend("Rules", function(KLASS, OO){
   OO.include($m.EventEmitter);
 
-  OO.addMember("initialize", function(root){var self=this;
-    getRules(function(rules) {
-      
+  OO.addMember("initialize", function(){var self=this;
+    this.getRules(function(rules) {
+      self.rules = rules;
+      self.emit('ready', rules);
     });
   });
 
@@ -28,5 +29,16 @@ $m.Class.extend("Rules", function(KLASS, OO){
     });
   });
 
+  OO.addMember("deleteRule", function(key){var self=this;
+    chrome.extension.sendRequest({ 
+      method: "deleteRule",
+      key: key
+    });
+  });
+
+
+});
+
+$m.Class.extend("Rule", function(KLASS, OO){
 });
 

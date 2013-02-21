@@ -17,6 +17,7 @@ class Scrapbook.Main {
 
   function initialize() {
     this.inspector = new Scrapbook.Inspector();
+    this.rules = new Rules();
     this.highlighters = [];
     this.extractors = [];
 
@@ -27,7 +28,7 @@ class Scrapbook.Main {
 
   function initHTML() {
     this.$root = $('<div id="scrapbook" class="scrapbook"></div>').appendTo("body");
-    this.panel = new Panel(this.$root);
+    this.panel = new Panel(this.$root, this.rules);
 
     this.$btnStartInspector = this.$root.find("#scrapbook-start-inspector");
     this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");

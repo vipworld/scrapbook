@@ -1,9 +1,10 @@
 class Rules {
   include $m.EventEmitter;
 
-  function initialize(root) {
-    getRules(#(rules) {
-      
+  function initialize() {
+    this.getRules(#(rules) {
+      self.rules = rules;
+      self.emit('ready', rules);
     });
   }
 
@@ -28,4 +29,15 @@ class Rules {
     });
   }
 
+  function deleteRule(key) {
+    chrome.extension.sendRequest({ 
+      method: "deleteRule",
+      key: key
+    });
+  }
+
+
+}
+
+class Rule {
 }

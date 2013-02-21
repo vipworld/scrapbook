@@ -5,6 +5,7 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
 
   OO.addMember("initialize", function(){var self=this;
     this.inspector = new Scrapbook.Inspector();
+    this.rules = new Rules();
     this.highlighters = [];
     this.extractors = [];
 
@@ -15,7 +16,7 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
 
   OO.addMember("initHTML", function(){var self=this;
     this.$root = $('<div id="scrapbook" class="scrapbook"></div>').appendTo("body");
-    this.panel = new Panel(this.$root);
+    this.panel = new Panel(this.$root, this.rules);
 
     this.$btnStartInspector = this.$root.find("#scrapbook-start-inspector");
     this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");

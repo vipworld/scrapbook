@@ -1,6 +1,7 @@
 //var root = '<div class="scrapbook"></div>';
 class Panel {
-  function initialize($root) {
+  function initialize($root, rules) {
+
     var template = <<END;
       a.close.icon-white &times;
       .panel.rulesets
@@ -27,6 +28,7 @@ class Panel {
         a.back Back
     END
 
+    this.rules = rules;
     $root.append(jade.compile(template));
     this.$root = $root;
     this.initHTML();
@@ -45,6 +47,7 @@ class Panel {
     this.$rulePanel  = this.$root.find('.rule:first');
     this.$toRule     = this.$root.find('.next');
     this.$toRules    = this.$root.find('.back');
+    this.drawRules();
   }
 
   function registerEvents() {
@@ -67,8 +70,10 @@ class Panel {
       self.saveRule(vals);
       self.clearForm();
 
+      self.drawRules();
       self.$newRule.show();
       self.$ruleForm.fadeOut();
+      
     });
   }
 
@@ -86,29 +91,26 @@ class Panel {
     // stub
   }
 
-  function getExtensionStorage(key, cb) {
-    chrome.extension.sendRequest({ 
-      method: "getLocalStorage",
-      key: key
-    }, cb);
-  }
-
-  function setExtensionStorage(key, value) {
-    chrome.extension.sendRequest({ 
-      method: "setLocalStorage",
-      key: key,
-      value: value
-    });
-  }
-
   function saveRule(vals) {
-    var html = '';
-    html += '<li>'
-      + '<a href="javascript:void(0)">'
-      + vals[0].value
-      + '</a>'
-      + '</li>';
-    this.$ruleList.append(html);
+    console.log('save rule ', vals);
+    this.rules.setRule(vals[0].value, { data: 'hello' });
+  }
+
+  function drawRules() {
+    this.$ruleList.html('');   
+    this.rules.getRules(#(rules){
+      console.log(rules);
+      for (var rule in rules) {
+        console.log(rules[rule]);
+        var html = '';
+        html += '<li>'
+          + '<a href="javascript:void(0)">'
+          + rule
+          + '</a>'
+          + '</li>';
+        self.$ruleList.append(html);
+      }
+    });
   }
  
 
@@ -119,26 +121,6 @@ class Panel {
 }
 
 //var panel = new Panel(root);
-
-class Rules {
-
-  function initialize(root) {
-  }
-
-  function saveRule(vals) {
-    // save vals from form to local storage
-  }
-
-  function updateRules() {
-    // rewrite rules list
-  }
-
-  function registerEvents() {
-    // click a rule to bring up rule page
-    // click save to save rule
-    // click add rule to show form
-  }
-}
 
 class RulesManager {
   // handles ui for rule panel

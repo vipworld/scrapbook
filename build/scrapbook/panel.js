@@ -1,8 +1,10 @@
 //var root = '<div class="scrapbook"></div>';
 $m.Class.extend("Panel", function(KLASS, OO){
-  OO.addMember("initialize", function($root){var self=this;
+  OO.addMember("initialize", function($root, rules){var self=this;
+
     var template = "a.close.icon-white &times;\n.panel.rulesets\n  h1 Existing Rulesets\n  ul.ruleset-list.unstyled\n  button.btn.newRule New Rule\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    button.btn.addRule Add Rule\n  a.next Next\n\n.panel.rule.panel-out\n  h1 Rules/Extractions\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  input#scrapbook-selector\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results\n  a.back Back";
 
+    this.rules = rules;
     $root.append(jade.compile(template));
     this.$root = $root;
     this.initHTML();
@@ -21,6 +23,7 @@ $m.Class.extend("Panel", function(KLASS, OO){
     this.$rulePanel  = this.$root.find('.rule:first');
     this.$toRule     = this.$root.find('.next');
     this.$toRules    = this.$root.find('.back');
+    this.drawRules();
   });
 
   OO.addMember("registerEvents", function(){var self=this;
@@ -43,8 +46,10 @@ $m.Class.extend("Panel", function(KLASS, OO){
       self.saveRule(vals);
       self.clearForm();
 
+      self.drawRules();
       self.$newRule.show();
       self.$ruleForm.fadeOut();
+      
     });
   });
 
@@ -62,29 +67,26 @@ $m.Class.extend("Panel", function(KLASS, OO){
     // stub
   });
 
-  OO.addMember("getExtensionStorage", function(key, cb){var self=this;
-    chrome.extension.sendRequest({ 
-      method: "getLocalStorage",
-      key: key
-    }, cb);
-  });
-
-  OO.addMember("setExtensionStorage", function(key, value){var self=this;
-    chrome.extension.sendRequest({ 
-      method: "setLocalStorage",
-      key: key,
-      value: value
-    });
-  });
-
   OO.addMember("saveRule", function(vals){var self=this;
-    var html = '';
-    html += '<li>'
-      + '<a href="javascript:void(0)">'
-      + vals[0].value
-      + '</a>'
-      + '</li>';
-    this.$ruleList.append(html);
+    console.log('save rule ', vals);
+    this.rules.setRule(vals[0].value, { data: 'hello' });
+  });
+
+  OO.addMember("drawRules", function(){var self=this;
+    this.$ruleList.html('');   
+    this.rules.getRules(function(rules){
+      console.log(rules);
+      for (var rule in rules) {
+        console.log(rules[rule]);
+        var html = '';
+        html += '<li>'
+          + '<a href="javascript:void(0)">'
+          + rule
+          + '</a>'
+          + '</li>';
+        self.$ruleList.append(html);
+      }
+    });
   });
  
 
@@ -95,26 +97,6 @@ $m.Class.extend("Panel", function(KLASS, OO){
 });
 
 //var panel = new Panel(root);
-
-$m.Class.extend("Rules", function(KLASS, OO){
-
-  OO.addMember("initialize", function(root){var self=this;
-  });
-
-  OO.addMember("saveRule", function(vals){var self=this;
-    // save vals from form to local storage
-  });
-
-  OO.addMember("updateRules", function(){var self=this;
-    // rewrite rules list
-  });
-
-  OO.addMember("registerEvents", function(){var self=this;
-    // click a rule to bring up rule page
-    // click save to save rule
-    // click add rule to show form
-  });
-});
 
 $m.Class.extend("RulesManager", function(KLASS, OO){
   // handles ui for rule panel
