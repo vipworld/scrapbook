@@ -4,6 +4,7 @@
   "name": "Extraction Tools",
   "description": "Find and create extraction rules for pipelines or dsapi",
   "version": "1.0",
+  "options_page": "options.html",
   "background" : {
     "scripts": ["background.js"]
   },
