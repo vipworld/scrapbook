@@ -1,6 +1,6 @@
 $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   
-    var HTML = ".scrapbook\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  input#scrapbook-selector\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results";
+    var HTML = ".scrapbook\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  .scrapbook-api\n  input#scrapbook-selector\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results";
   
 
   OO.addMember("initialize", function(){var self=this;
@@ -9,6 +9,7 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
     this.extractors = [];
 
     this.initHTML();
+    this.api = new Scrapbook.Api(this.$root);
     this.registerEvents();
   });
 

@@ -8,6 +8,7 @@ class Scrapbook.Main {
           button#scrapbook-add-extractor Add Extractor
           |  | 
           button#scrapbook-extract Extract
+        .scrapbook-api
         input#scrapbook-selector
         ul#scrapbook-extractors
         ul#scrapbook-extracted-results
@@ -20,6 +21,7 @@ class Scrapbook.Main {
     this.extractors = [];
 
     this.initHTML();
+    this.api = new Scrapbook.Api(this.$root);
     this.registerEvents();
   }
 
