@@ -1,0 +1,11 @@
+body {
+	margin-left: 350px;
+}
+.factual-tools {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 350px;
+	background-color: #CCC;
+}

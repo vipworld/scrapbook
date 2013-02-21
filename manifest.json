@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "Extraction Tools",
+  "description": "Find and create extraction rules for pipelines or dsapi",
+  "version": "1.0",
+  "background" : {
+    "scripts": ["background.js"]
+  },
+  "content_scripts" : [
+    {
+      "matches" : [ "http://*/*" ],
+      "js" : [ "contentscript.js" ],
+      "run_at" : "document_idle",
+      "all_frames" : false
+    }
+  ],
+  "permissions": [
+    "http://*/*",
+    "tabs"
+  ],
+  "browser_action": {
+    "default_icon": "icon.png"
+  }
+}
