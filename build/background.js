@@ -14,7 +14,7 @@ function initScrapbook(id) {
     chrome.tabs.sendMessage(tab.id, { method: "runBook" }, function(response) {
       console.log(response.farewell);
     });
-    //chrome.tabs.insertCSS(null, { file: "css/scrapboot.css" });
+    chrome.tabs.insertCSS(null, { file: "css/scrapboot.css" });
   });
 }
 function stopScrapbook(id) {

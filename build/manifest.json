@@ -22,7 +22,6 @@
         "scrapbook/extractor.js",
         "contentscript.js"
       ],
-      "css" : [ "css/scrapboot.css" ],
       "run_at" : "document_idle",
       "all_frames" : false
     }

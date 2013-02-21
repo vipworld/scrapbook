@@ -1,7 +1,6 @@
 //var root = '<div class="scrapbook"></div>';
 class Panel {
   function initialize($root) {
-    console.log('called');
     var template = <<END;
       a.close.icon-white &times;
       .panel.rulesets
@@ -26,13 +25,13 @@ class Panel {
         input#scrapbook-selector
         ul#scrapbook-extractors
         ul#scrapbook-extracted-results
+        a.back Back
     END
 
     $root.append(jade.compile(template));
     this.$root = $root;
     this.initHTML();
     this.registerEvents();
-
 
     this.panes = {};
     return this;
@@ -47,13 +46,32 @@ class Panel {
     this.$rulesPanel = this.$root.find('.rulesets:first');
     this.$rulePanel  = this.$root.find('.rule:first');
     this.$toRule     = this.$root.find('.next');
+    this.$toRules    = this.$root.find('.back');
   }
 
   function registerEvents() {
     this.$toRule.click(function() {
       self.rulePanel();
     });
+    this.$toRules.click(function() {
+      self.rulesPanel();
+    });
 
+    this.$newRule.click(function() {
+      self.$newRule.hide();
+      self.$ruleForm.show();
+    });
+
+    this.$addRule.click(function(e) {
+      e.preventDefault();
+      var form = $(e.target).parents('form');
+      var vals = form.serializeArray();
+      self.saveRule(vals);
+      self.clearForm();
+
+      self.$newRule.show();
+      self.$ruleForm.fadeOut();
+    });
   }
 
   function rulePanel(rule) {
@@ -65,6 +83,19 @@ class Panel {
     this.$rulePanel.removeClass('panel-in')
       .addClass('panel-out');
   }
+
+  function clearForm() {
+    // stub
+  }
+
+  function saveRule(vals) {
+    var html = '';
+    html += '<li>'
+      + vals[0].value
+      + '</li>';
+    this.$ruleList.html(html);
+  }
+ 
 
   function addPane(name, html) {
     this.panes[name] = true;
