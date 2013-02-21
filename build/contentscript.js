@@ -14,19 +14,21 @@ chrome.extension.onMessage.addListener(
 );
 
 function runBook() {
-  $panel.show();
+  $root.show();
 }
 
 function stopBook() {
-  $panel.hide();
+  $root.hide();
 }
 
-var $panel       = $("<div id=\"scrapbook\" class=\"scrapbook\"><button id=\"scrapbook-inspector-enabler\">enable inspector</button> | <button id=\"scrapbook-add-extractor\">add extractor</button> | <button id=\"scrapbook-extract\">extract</button><br/>css selector: <input id=\"scrapbook-selector\"/><ul id=\"scrapbook-extractors\"></ul><ul id=\"scrapbook-results\"></ul></div>");
+var $root = $("<div id=\"scrapbook\" class=\"scrapbook\"></div>");
+var panel = new Panel($root);
+
 var $inspector   = $("<div class=\"scrapbook-inspector\"/>");
 
 var highlighters = [];
 
-$("body").append($panel);
+$("body").append($root);
 $("body").append($inspector);
 
 var inspectorEnabled = false;
@@ -47,7 +49,7 @@ $cssSelector.keyup(function () {
 });
 
 $inspectorEnabler.click(function () {
-  $panel.hide();
+  $root.hide();
   removeAllContainerCovers();
   inspectorEnabled = true;
 });
@@ -55,7 +57,7 @@ $inspectorEnabler.click(function () {
 $inspector.click(function () {
   $cssSelector.val($current.getPath());
   highlight($($cssSelector.val()).eq(0), $inspector);
-  $panel.show();
+  $root.show();
   inspectorEnabled = false;
 
   highlightAllContainers();

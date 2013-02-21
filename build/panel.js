@@ -1,6 +1,6 @@
 //var root = '<div class="scrapbook"></div>';
-class Panel {
-  function initialize($root) {
+$m.Class.extend("Panel", function(KLASS, OO){
+  OO.addMember("initialize", function($root){var self=this;
     // manage main view for side panel
     // navigate panes
     // dispatch commands to extension
@@ -11,44 +11,45 @@ class Panel {
 
     this.panes = {};
     return this;
-  }
+  });
 
-  function addPane(name, html) {
+  OO.addMember("addPane", function(name, html){var self=this;
     this.panes[name] = true;
-  }
+  });
 
-  function showPane(name) {
-  }
-}
+  OO.addMember("showPane", function(name){var self=this;
+  });
+});
 
 //var panel = new Panel(root);
 
-class Rules {
+$m.Class.extend("Rules", function(KLASS, OO){
 
-  function initialize(root) {
-  }
+  OO.addMember("initialize", function(root){var self=this;
+  });
 
-  function saveRule(vals) {
+  OO.addMember("saveRule", function(vals){var self=this;
     // save vals from form to local storage
-  }
+  });
 
-  function updateRules() {
+  OO.addMember("updateRules", function(){var self=this;
     // rewrite rules list
-  }
+  });
 
-  function registerEvents() {
+  OO.addMember("registerEvents", function(){var self=this;
     // click a rule to bring up rule page
     // click save to save rule
     // click add rule to show form
-  }
-}
+  });
+});
 
-class RulesManager {
+$m.Class.extend("RulesManager", function(KLASS, OO){
   // handles ui for rule panel
   // displays preview
   // navigate through matches 
   // edit and save rules
-  function initialize(root) {
+  OO.addMember("initialize", function(root){var self=this;
    
-  }
-}
+  });
+});
+

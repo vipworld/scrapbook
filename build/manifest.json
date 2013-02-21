@@ -11,7 +11,8 @@
   "content_scripts" : [
     {
       "matches" : [ "http://*/*" ],
-      "js" : [ "jquery-1.9.1.min.js", "mochiscript.js", "utils.js", "contentscript.js" ],
+      "js" : [ 
+        "jquery-1.9.1.min.js", "mochiscript.js", "jade.js", "utils.js", "panel.js", "contentscript.js" ],
       "css" : [ "css/scrapboot.css" ],
       "run_at" : "document_idle",
       "all_frames" : false
