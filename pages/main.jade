@@ -4,30 +4,45 @@ html
     script(type="text/javascript", src="../jquery-1.9.1.min.js")
   body
     .scrapbook
-      a.close x
-      .rulesets
+      a.close.icon-white &times;
+      .panel.rulesets
         h1 Existing Rulesets
         ul.ruleset-list
           li replace me with rule name
-      button.btn.newRule New Rule
-      form.ruleset-define-form(style="display: none;")
-        input(type="text", name="name", placeholder="name")
-        input(type="text", name="table", placeholder="factual table id (optional)")
-        button.btn.addRule Add Rule
-      a.next Next
+        button.btn.newRule New Rule
+        form.ruleset-define-form(style="display: none;")
+          input(type="text", name="name", placeholder="name")
+          input(type="text", name="table", placeholder="factual table id (optional)")
+          button.btn.addRule Add Rule
+        a.next Next
 
-      .ruleset-details
+      .panel.rule.panel-out
+        h1 Rules/Extractions
     script(type="text/javascript")
-      function getPageHeight() {
-        return $(document).height();
-      }
       $(function() {
-        var $root     = $('.scrapbook:first');
-        var $newRule  = $root.find('.newRule:first');
-        var $addRule  = $root.find('.addRule:first');
-        var $ruleForm = $root.find('.ruleset-define-form:first');
-        var $ruleList = $root.find('.ruleset-list:first');
-        $root.height(getPageHeight());
+        var $root       = $('.scrapbook:first');
+        var $newRule    = $root.find('.newRule:first');
+        var $addRule    = $root.find('.addRule:first');
+        var $ruleForm   = $root.find('.ruleset-define-form:first');
+        var $ruleList   = $root.find('.ruleset-list:first');
+        var $rulesPanel = $root.find('.rulesets:first');
+        var $rulePanel  = $root.find('.rule:first');
+        var $toRule     = $root.find('.next');
+
+        function rulePanel(rule) {
+          $rulePanel.removeClass('panel-out')
+            .addClass('panel-in');
+        }
+
+        function rulesPanel() {
+          $rulePanel.removeClass('panel-in')
+            .addClass('panel-out');
+        }
+
+        function setPanelHeight() {
+          console.log('setting height');
+          $root.height($(document).height());
+        }
 
         function clearForm() {
         }
@@ -44,6 +59,16 @@ html
           $ruleForm.fadeOut();
           $ruleList.append();
         });
+
+        $toRule.click(function() {
+          rulePanel();
+        });
+
+        $(window).resize(function() {
+          setPanelHeight();
+        });
+
+        setPanelHeight();
 
       });
       

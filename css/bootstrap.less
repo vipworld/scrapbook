@@ -16,6 +16,27 @@
   position: absolute;
   top: 0px;
   left: 0px;
+  overflow: hidden;
+
+  .panel {
+    background-color: #272B30;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+  }
+
+  .panel-out {
+    left: 350px;
+    transition-property: left;
+    transition-duration: 1s;
+  }
+
+  .panel-in {
+    left: 0px;
+    transition-property: left;
+    transition-duration: 1s;
+  }
 
   .clearfix {
     *zoom: 1;
@@ -3172,15 +3193,15 @@
     font-size: 20px;
     font-weight: bold;
     line-height: 21px;
-    color: #000000;
-    text-shadow: 0 1px 0 #ffffff;
-    opacity: 0.2;
-    filter: alpha(opacity=20);
+    color: #FFFFFF;
+    text-shadow: 0 1px 0 #000000;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
   }
 
   .close:hover,
   .close:focus {
-    color: #000000;
+    color: #FFFFFF;
     text-decoration: none;
     cursor: pointer;
     opacity: 0.4;
