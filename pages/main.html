@@ -1,3 +1,29 @@
-<html><head><link href="../css/scrapboot.css" rel="stylesheet"/><script type="text/javascript" src="../jquery-1.9.1.min.js"></script></head><body><div class="scrapbook"><a class="close">x</a><div class="rulesets"><h1>Existing Rulesets</h1><ul><li>replace me with rule name</li></ul></div><button class="btn newRule">New Rule</button><div class="ruleset-define"><div style="display: none;" class="ruleset-define-form"><input type="text" placeholder="name"/><input type="text" placeholder="factual table id (optional)"/><button class="btn addRule">New Rule</button></div></div><a class="next">Next</a><div class="ruleset-details"></div></div><script type="text/javascript">$('button.newRule').click(function() {
-  $('.ruleset-define-form:first').show();
-});</script></body></html>
+<html><head><link href="../css/scrapboot.css" rel="stylesheet"/><script type="text/javascript" src="../jquery-1.9.1.min.js"></script></head><body><div class="scrapbook"><a class="close">x</a><div class="rulesets"><h1>Existing Rulesets</h1><ul class="ruleset-list"><li>replace me with rule name</li></ul></div><button class="btn newRule">New Rule</button><form style="display: none;" class="ruleset-define-form"><input type="text" name="name" placeholder="name"/><input type="text" name="table" placeholder="factual table id (optional)"/><button class="btn addRule">Add Rule</button></form><a class="next">Next</a><div class="ruleset-details"></div></div><script type="text/javascript">function getPageHeight() {
+  return $(document).height();
+}
+$(function() {
+  var $root     = $('.scrapbook:first');
+  var $newRule  = $root.find('.newRule:first');
+  var $addRule  = $root.find('.addRule:first');
+  var $ruleForm = $root.find('.ruleset-define-form:first');
+  var $ruleList = $root.find('.ruleset-list:first');
+  $root.height(getPageHeight());
+  
+  function clearForm() {
+  }
+  
+  $newRule.click(function() {
+    $newRule.hide();
+    $('.ruleset-define-form:first').show();
+  });
+  
+  $addRule.click(function(e) {
+    e.preventDefault();
+    
+    $newRule.show();
+    $ruleForm.fadeOut();
+    $ruleList.append();
+  });
+  
+});
+</script></body></html>
