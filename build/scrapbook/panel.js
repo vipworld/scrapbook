@@ -1,7 +1,7 @@
 //var root = '<div class="scrapbook"></div>';
 $m.Class.extend("Panel", function(KLASS, OO){
   OO.addMember("initialize", function($root){var self=this;
-    var template = "a.close.icon-white &times;\n.panel.rulesets\n  h1 Existing Rulesets\n  ul.ruleset-list\n    li replace me with rule name\n  button.btn.newRule New Rule\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    button.btn.addRule Add Rule\n  a.next Next\n\n.panel.rule.panel-out\n  h1 Rules/Extractions\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  input#scrapbook-selector\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results\n  a.back Back";
+    var template = "a.close.icon-white &times;\n.panel.rulesets\n  h1 Existing Rulesets\n  ul.ruleset-list.unstyled\n  button.btn.newRule New Rule\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    button.btn.addRule Add Rule\n  a.next Next\n\n.panel.rule.panel-out\n  h1 Rules/Extractions\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  input#scrapbook-selector\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results\n  a.back Back";
 
     $root.append(jade.compile(template));
     this.$root = $root;
@@ -13,7 +13,6 @@ $m.Class.extend("Panel", function(KLASS, OO){
   });
 
   OO.addMember("initHTML", function(){var self=this;
-    
     this.$newRule    = this.$root.find('.newRule:first');
     this.$addRule    = this.$root.find('.addRule:first');
     this.$ruleForm   = this.$root.find('.ruleset-define-form:first');
@@ -66,7 +65,9 @@ $m.Class.extend("Panel", function(KLASS, OO){
   OO.addMember("saveRule", function(vals){var self=this;
     var html = '';
     html += '<li>'
+      + '<a href="javascript:void(0)">'
       + vals[0].value
+      + '</a>'
       + '</li>';
     this.$ruleList.append(html);
   });

@@ -5,8 +5,7 @@ class Panel {
       a.close.icon-white &times;
       .panel.rulesets
         h1 Existing Rulesets
-        ul.ruleset-list
-          li replace me with rule name
+        ul.ruleset-list.unstyled
         button.btn.newRule New Rule
         form.ruleset-define-form(style="display: none;")
           input(type="text", name="name", placeholder="name")
@@ -38,7 +37,6 @@ class Panel {
   }
 
   function initHTML() {
-    
     this.$newRule    = this.$root.find('.newRule:first');
     this.$addRule    = this.$root.find('.addRule:first');
     this.$ruleForm   = this.$root.find('.ruleset-define-form:first');
@@ -88,10 +86,27 @@ class Panel {
     // stub
   }
 
+  function getExtensionStorage(key, cb) {
+    chrome.extension.sendRequest({ 
+      method: "getLocalStorage",
+      key: key
+    }, cb);
+  }
+
+  function setExtensionStorage(key, value) {
+    chrome.extension.sendRequest({ 
+      method: "setLocalStorage",
+      key: key,
+      value: value
+    });
+  }
+
   function saveRule(vals) {
     var html = '';
     html += '<li>'
+      + '<a href="javascript:void(0)">'
       + vals[0].value
+      + '</a>'
       + '</li>';
     this.$ruleList.append(html);
   }
