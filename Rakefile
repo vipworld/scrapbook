@@ -14,10 +14,10 @@ def compile(src_path)
 end
 
 def ms_files(dir_path, files=[])
-  file_paths = Dir.glob(dir_path + "/*.ms")
+  file_paths = Dir.glob(dir_path + "/*")
   file_paths.each do |f|
     if File.file?(f)
-      files.push(f)
+      files.push(f) if f.match(/\.ms$/)
     else
       ms_files(f, files)
     end
@@ -28,6 +28,7 @@ end
 
 task :build do
   ms_files(MS_SRC_DIR).each do |file|
+    puts "Compiling: " + file
     compile(file)
   end
 end

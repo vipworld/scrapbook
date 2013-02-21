@@ -12,7 +12,6 @@
 .scrapbook-inspector {
   position: absolute;
   z-index: 1000;
-  display: none;
 }
 .scrapbook-highlight-container {
   background-color: rgba(164, 198, 57, 0.5);
