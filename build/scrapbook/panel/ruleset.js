@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
   
-    var HTML = ".panel.ruleset\n  h1 Existing Rulesets\n  ul.ruleset-list\n  button.btn.newRules New Rules\n  form.ruleset-define-form(style=\"display: none;\")\n    .control-group\n      input(type=\"text\", name=\"name\", placeholder=\"name\")\n    .control-group\n      input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    .control-group\n      .controls\n        a(href=\"javascript:void(0)\").btn.addRule Add Rule\n        a(href=\"javascript:void(0)\").btn.cancelAddRule Cancel\n  hr\n  a(href=\"javascript:void(0)\").clearRules Clear Rules\n  | |\n  a(href=\"javascript:void(0)\").logRules Console Rules";
+    var HTML = ".panel.ruleset\n  h1 Existing Rulesets\n  button.btn.newRules New Rules\n  form.ruleset-define-form(style=\"display: none;\")\n    .control-group\n      input(type=\"text\", name=\"name\", placeholder=\"name\")\n    .control-group\n      input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    .control-group\n      .controls\n        a(href=\"javascript:void(0)\").btn.addRule Add Rule\n        a(href=\"javascript:void(0)\").btn.cancelAddRule Cancel\n  p\n  a(href=\"javascript:void(0)\").clearRules Clear Rules\n  |  |    \n  a(href=\"javascript:void(0)\").logRules Console Rules\n  hr\n  ul.ruleset-list";
   
 
   OO.addMember("NAME", "RULESET");

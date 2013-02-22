@@ -1,6 +1,8 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   
-    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    ul#scrapbook-previews\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    input.input-xxlarge#scrapbook-selector\n    p\n    ul#scrapbook-extractors\n    p\n    button.btn#scrapbook-extract Extract\n    div\n      a.btn(href=\"javascript:void(0)\").nextResult\n        img.icon-step-forward\n      a.btn(href=\"javascript:void(0)\").prevResult\n        img.icon-step-backward\n      ul#scrapbook-extracted-results";
+    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    ul#scrapbook-previews\n    p\n    input.input-large#scrapbook-selector\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    ul#scrapbook-extractors\n    p\n    button.btn#scrapbook-extract Extract\n    div\n      a.btn(href=\"javascript:void(0)\").nextResult\n        img.icon-step-forward\n      a.btn(href=\"javascript:void(0)\").prevResult\n        img.icon-step-backward\n      ul#scrapbook-extracted-results\n    p\n    ul#scrapbook-extracted-results\n    p\n    button.btn#scrapbook-submit Submit To Factual";
+
+    var FACTUAL_URL = "http://api.v3.factual.com";
   
 
 	OO.addMember("NAME", "RULES");
@@ -21,6 +23,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$btnExtract = this.$root.find("#scrapbook-extract");
     this.$btnSave = this.$root.find("#scrapbook-save");
     this.$btnBack = this.$root.find("#scrapbook-back");
+    this.$btnSubmit = this.$root.find("#scrapbook-submit");
 
     this.$txtSelector = this.$root.find("#scrapbook-selector");
 
@@ -35,6 +38,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$btnExtract.click(function($1,$2,$3){ self.extract() });
     this.$btnSave.click(function($1,$2,$3){ self.save() });
     this.$btnBack.click(function($1,$2,$3){ self.back() });
+    this.$btnSubmit.click(function($1,$2,$3){ self.submit() });
     this.$txtSelector.keyup(function($1,$2,$3){ self.process() });
   });
 
@@ -77,7 +81,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     var html = ""
 
     for (var _i_0=0,container=null,_list_0=$containers,_len_0=_list_0.length;(container=_list_0[_i_0])||_i_0<_len_0;_i_0++) {
-      var result = self.extractors.map(function($1,$2,$3){ return  $1.extract($(container)) });
+      var result = this.extractors.map(function($1,$2,$3){ return  $1.extract($(container)) });
       console.log(result);
 
       html += "<li>";
@@ -130,6 +134,31 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
 
   OO.addMember("back", function(){var self=this;
     this.main.switchToPanel("RULESET");
+  });
+
+  OO.addMember("submit", function(){var self=this;
+    var $containers = this.getJqContainers();
+    var url = FACTUAL_URL + "/t/" + this.hash.table_id + "/submit"
+    var queries = [];
+
+    for (var _i_1=0,container=null,_list_1=$containers,_len_1=_list_1.length;(container=_list_1[_i_1])||_i_1<_len_1;_i_1++) {
+      var values = {};
+      this.extractors.map(function($1,$2,$3){ return  $1.extract($(container)) }).forEach(function($1,$2,$3){
+        values[$1[0]] = $1[1];
+      });
+      queries.push({
+        values: values,
+        user: "Scrapbook"
+      });
+    }
+
+    var text = [
+      "POST: " + url,
+      "Queries:",
+      queries.map(function($1,$2,$3){ return  "  " + $2 + ": " + JSON.stringify($1) }).join("\n")
+    ].join("\n");
+
+    alert(text);
   });
 });
 
