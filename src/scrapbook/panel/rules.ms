@@ -10,15 +10,15 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           p
           #scrapbook-previews
           p
-          button.btn#scrapbook-add-extractor Add Extractor
-          input.input-xxlarge#scrapbook-selector
+          input.input-large#scrapbook-selector
           p
+          button.btn#scrapbook-add-extractor Add Extractor
           ul#scrapbook-extractors
           p
           button.btn#scrapbook-extract Extract
-          p
-          ul#scrapbook-extracted-results
     END
+
+    var FACTUAL_URL = "http://api.v3.factual.com";
   }
 
 	var NAME = "RULES";
@@ -39,6 +39,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$btnExtract = this.$root.find("#scrapbook-extract");
     this.$btnSave = this.$root.find("#scrapbook-save");
     this.$btnBack = this.$root.find("#scrapbook-back");
+    this.$btnSubmit = this.$root.find("#scrapbook-submit");
 
     this.$txtSelector = this.$root.find("#scrapbook-selector");
 
@@ -56,6 +57,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$btnExtract.click(#{ self.extract() });
     this.$btnSave.click(#{ self.save() });
     this.$btnBack.click(#{ self.back() });
+    this.$btnSubmit.click(#{ self.submit() });
     this.$txtSelector.keyup(#{ self.process() });
   }
 
@@ -96,7 +98,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     var html = ""
 
     foreach (var container in $containers) {
-      var result = self.extractors.map(#{ => $1.extract($(container)) });
+      var result = this.extractors.map(#{ => $1.extract($(container)) });
       console.log(result);
 
       html += "<li>";
@@ -149,5 +151,30 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
 
   function back() {
     this.main.switchToPanel("RULESET");
+  }
+
+  function submit() {
+    var $containers = this.getJqContainers();
+    var url = FACTUAL_URL + "/t/" + this.hash.table_id + "/submit"
+    var queries = [];
+
+    foreach (var container in $containers) {
+      var values = {};
+      this.extractors.map(#{ => $1.extract($(container)) }).forEach(#{
+        values[$1[0]] = $1[1];
+      });
+      queries.push({
+        values: values,
+        user: "Scrapbook"
+      });
+    }
+
+    var text = [
+      "POST: " + url,
+      "Queries:",
+      queries.map(#{ => "  " + $2 + ": " + JSON.stringify($1) }).join("\n")
+    ].join("\n");
+
+    alert(text);
   }
 }

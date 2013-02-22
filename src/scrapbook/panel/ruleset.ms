@@ -3,7 +3,6 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
     var HTML = <<END;
       .panel.ruleset
         h1 Existing Rulesets
-        ul.ruleset-list
         button.btn.newRules New Rules
         form.ruleset-define-form(style="display: none;")
           .control-group
@@ -14,10 +13,12 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
             .controls
               a(href="javascript:void(0)").btn.addRule Add Rule
               a(href="javascript:void(0)").btn.cancelAddRule Cancel
-        hr
+        p
         a(href="javascript:void(0)").clearRules Clear Rules
-        | |
+        |  |    
         a(href="javascript:void(0)").logRules Console Rules
+        hr
+        ul.ruleset-list
     END
   }
 
