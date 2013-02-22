@@ -2,15 +2,14 @@ class Scrapbook.Extractor {
   private {
     var HTML = <<END;
       li.scrapbook-extractor
-        dt name:
-        dd
-          input.scrapbook-extractor-name
-        dt regexp:
-        dd
-          input.scrapbook-extractor-regexp
-        dt dom:
-        dd
-          input.scrapbook-extractor-dom
+        label name:
+        input.scrapbook-extractor-name
+        label method:
+        select(name="method")
+          option(value="dom") dom
+          option(value="regex") regex
+        label value:
+        input.scrapbook-extractor-dom
     END
   }
 
