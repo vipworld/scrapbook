@@ -33,7 +33,7 @@ class Scrapbook.Panel.Api extends Scrapbook.Panel.Base {
 
   function query() {
     var url = "http://api.v3.factual.com" + this.$path.val();
-    var authorization = oauthHeader(this.$key.val(), this.$secret.val(), url);
+    var authorization = Scrapbook.utils.oauthHeader(this.$key.val(), this.$secret.val(), url);
 
     $.ajax({
       url: url,

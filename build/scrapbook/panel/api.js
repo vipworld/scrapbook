@@ -21,7 +21,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Api", function(KLASS, OO){
 
   OO.addMember("query", function(){var self=this;
     var url = "http://api.v3.factual.com" + this.$path.val();
-    var authorization = oauthHeader(this.$key.val(), this.$secret.val(), url);
+    var authorization = Scrapbook.utils.oauthHeader(this.$key.val(), this.$secret.val(), url);
 
     $.ajax({
       url: url,

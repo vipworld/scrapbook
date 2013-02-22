@@ -6,10 +6,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
 	OO.addMember("NAME", "RULES");
 
   OO.addMember("initialize", function($parent){var self=this;
-		this.highlighters = [];
 		this.extractors = [];
-
-    this.inspector = new Scrapbook.Inspector();
 
 		this.$super($parent);
   });
@@ -34,8 +31,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$btnAddExtractor.click(function($1,$2,$3){ self.addExtractor() });
     this.$btnExtract.click(function($1,$2,$3){ self.extract() });
     this.$btnSave.click(function($1,$2,$3){ self.save() });
-    this.$txtSelector.keyup(function($1,$2,$3){ self.highlightAll() });
-    this.inspector.on("inspected", function($1,$2,$3){ self.inspect($1) });
+    this.$txtSelector.keyup(function($1,$2,$3){ self.process() });
   });
 
   OO.addMember("show", function(){var self=this;
@@ -47,42 +43,23 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   });
 
   OO.addMember("startInspector", function(){var self=this;
-    this.removeHighlighters();
-    this.inspector.enable();
+    Scrapbook.highlighter.unHighlight("ALL");
+    Scrapbook.inspector.inspect(function($target){
+      self.$txtSelector.val($target.getPath("SMART"));
+      self.process();
+    })
   });
 
-  OO.addMember("inspect", function($target){var self=this;
-    this.inspector.disable();
-    this.$txtSelector.val($target.getPath());
-    this.highlightAll();
-  });
-
-  OO.addMember("highlightAll", function(){var self=this;
-    this.removeHighlighters();
+  OO.addMember("process", function(){var self=this;
+    Scrapbook.highlighter.unHighlight("ALL");
     this.$ulPreviews.html("");
 
     var $containers = this.getJqContainers();
-    $containers.each(function($1,$2,$3){ new Scrapbook.Preview(self.$ulPreviews, $($2)) });
 
     for (var i=0,len=$containers.length; i<len; i++) {
-      var $cover = $(jade.compile(".scrapbook-highlight-container")()).appendTo("body");
-      this.highlight($containers.eq(i), $cover);
-      this.highlighters.push($cover);
-    }
-  });
-
-  OO.addMember("highlight", function($target, $cover){var self=this;
-    var offset = $target.offset();
-
-    $cover.css("top", offset.top);
-    $cover.css("left", offset.left);
-    $cover.width($target.width());
-    $cover.height($target.height());
-  });
-
-  OO.addMember("removeHighlighters", function(){var self=this;
-    for (var i=0,len=this.highlighters.length; i<len; i++) {
-      this.highlighters[i].remove();
+      var $container = $containers.eq(i);
+      Scrapbook.highlighter.highlight("container", $container)
+      new Scrapbook.Preview(self.$ulPreviews, $container)
     }
   });
 

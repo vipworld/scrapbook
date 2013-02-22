@@ -9,6 +9,6 @@ class Scrapbook.Preview {
   function initHTML() {
     this.$root = $(jade.compile("li.preview")());
     this.$parent.append(this.$root);
-    this.$root.html(this.$target.html());
+    this.$root.text(this.$target.html());
   }
 }

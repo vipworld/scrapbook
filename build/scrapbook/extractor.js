@@ -15,8 +15,6 @@ $m.Class.extend("Scrapbook.Extractor", function(KLASS, OO){
     this.$txtName = this.$root.find(".scrapbook-extractor-name");
     this.$txtRegexp = this.$root.find(".scrapbook-extractor-regexp");
     this.$txtDom = this.$root.find(".scrapbook-extractor-dom");
-
-    this.$cover = $(jade.compile(".scrapbook-highlight-extractor")()).appendTo("body");
   });
 
   OO.addMember("populateByHash", function(hash){var self=this;
@@ -35,7 +33,7 @@ $m.Class.extend("Scrapbook.Extractor", function(KLASS, OO){
       extracted = $target.html().match(extractor.regexp)[1];
     } else if (extractor.dom) {
       var $subTarget = $target.find(extractor.dom);
-      this.highlight($subTarget);
+      Scrapbook.highlighter.highlight("extractor", $subTarget);
       extracted = $subTarget.text();
     }
 
@@ -51,17 +49,7 @@ $m.Class.extend("Scrapbook.Extractor", function(KLASS, OO){
   });
 
   OO.addMember("remove", function(){var self=this;
-    this.$cover.remove();
     this.$root.remove();
-  });
-
-  OO.addMember("highlight", function($subTarget){var self=this;
-    var offset = $subTarget.offset();
-
-    this.$cover.css("top", offset.top);
-    this.$cover.css("left", offset.left);
-    this.$cover.width($subTarget.width());
-    this.$cover.height($subTarget.height());
   });
 });
 

@@ -23,10 +23,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
 	var NAME = "RULES";
 
   function initialize($parent) {
-		this.highlighters = [];
 		this.extractors = [];
-
-    this.inspector = new Scrapbook.Inspector();
 
 		this.$super($parent);
   }
@@ -51,8 +48,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$btnAddExtractor.click(#{ self.addExtractor() });
     this.$btnExtract.click(#{ self.extract() });
     this.$btnSave.click(#{ self.save() });
-    this.$txtSelector.keyup(#{ self.highlightAll() });
-    this.inspector.on("inspected", #{ self.inspect($1) });
+    this.$txtSelector.keyup(#{ self.process() });
   }
 
   function show() {
@@ -64,42 +60,23 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
   }
 
   function startInspector() {
-    this.removeHighlighters();
-    this.inspector.enable();
+    Scrapbook.highlighter.unHighlight("ALL");
+    Scrapbook.inspector.inspect(#($target){
+      self.$txtSelector.val($target.getPath("SMART"));
+      self.process();
+    })
   }
 
-  function inspect($target) {
-    this.inspector.disable();
-    this.$txtSelector.val($target.getPath());
-    this.highlightAll();
-  }
-
-  function highlightAll() {
-    this.removeHighlighters();
+  function process() {
+    Scrapbook.highlighter.unHighlight("ALL");
     this.$ulPreviews.html("");
 
     var $containers = this.getJqContainers();
-    $containers.each(#{ new Scrapbook.Preview(self.$ulPreviews, $($2)) });
 
     for (var i=0,len=$containers.length; i<len; i++) {
-      var $cover = $(jade.compile(".scrapbook-highlight-container")()).appendTo("body");
-      this.highlight($containers.eq(i), $cover);
-      this.highlighters.push($cover);
-    }
-  }
-
-  function highlight($target, $cover) {
-    var offset = $target.offset();
-
-    $cover.css("top", offset.top);
-    $cover.css("left", offset.left);
-    $cover.width($target.width());
-    $cover.height($target.height());
-  }
-
-  function removeHighlighters() {
-    for (var i=0,len=this.highlighters.length; i<len; i++) {
-      this.highlighters[i].remove();
+      var $container = $containers.eq(i);
+      Scrapbook.highlighter.highlight("container", $container)
+      new Scrapbook.Preview(self.$ulPreviews, $container)
     }
   }
 

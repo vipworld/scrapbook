@@ -1,6 +1,4 @@
 class Scrapbook.Inspector {
-  include $m.EventEmitter;
-
   function initialize() {
     this.initHTML();
     this.registerEvents();
@@ -8,11 +6,12 @@ class Scrapbook.Inspector {
 
   function initHTML() {
     this.$root = $(jade.compile(".scrapbook-inspector")()).appendTo("body");
+    console.log(this.$root);
   }
 
   function registerEvents() {
     $(window).mousemove(#(e) {
-      self.inspect(e.pageX - window.scrollX, e.pageY - window.scrollY);
+      self.inspecting(e.pageX - window.scrollX, e.pageY - window.scrollY);
     });
 
     this.$root.click(#{ self.inspected() });
@@ -34,7 +33,7 @@ class Scrapbook.Inspector {
     this.$root.hide();
   }
 
-  function inspect(x, y) {
+  function inspecting(x, y) {
     this.hide();
 
     if (this._enable) {
@@ -50,7 +49,19 @@ class Scrapbook.Inspector {
     }
   }
 
+  function inspect(callback) {
+    this.callback = callback;
+    this.enable();
+  }
+
   function inspected() {
-    this.emit("inspected", this.$target);
+    if (this.callback) {
+      this.callback(this.$target);
+      this.callback = null;
+    }
+
+    this.disable();
   }
 }
+
+Scrapbook.inspector = new Scrapbook.Inspector();

@@ -24,8 +24,9 @@
         "scrapbook/panel/ruleset.js",
         "scrapbook/panel/rules.js",
         "scrapbook/panel/api.js",
-        "scrapbook/inspector.js",
         "scrapbook/extractor.js",
+        "scrapbook/highlighter.js",
+        "scrapbook/inspector.js",
         "scrapbook/preview.js",
         "contentscript.js"
       ],

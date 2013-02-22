@@ -27,8 +27,8 @@ jQuery.fn.getPath = function (smart) {
   return path;
 };
 
-$m.Class.extend("Scrapbook.Utils", function(KLASS, OO){
-  OO.addMember("oauthHeader", function(ck,cks,encodedurl){var self=this;
+class Scrapbook.Utils {
+  function oauthHeader(ck,cks,encodedurl) {
     var accessor = { consumerSecret: cks, tokenSecret: ""};
     var message = { action: encodedurl, method: "GET", parameters: [["oauth_version","1.0"],["oauth_consumer_key",ck]]};
 
@@ -67,8 +67,7 @@ $m.Class.extend("Scrapbook.Utils", function(KLASS, OO){
     }
 
     return "OAuth realm=\"\", " + authorization.join(", ");
-  });
-});
+  }
+}
 
 Scrapbook.utils = new Scrapbook.Utils();
-

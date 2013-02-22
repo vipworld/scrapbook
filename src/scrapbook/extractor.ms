@@ -26,8 +26,6 @@ class Scrapbook.Extractor {
     this.$txtName = this.$root.find(".scrapbook-extractor-name");
     this.$txtRegexp = this.$root.find(".scrapbook-extractor-regexp");
     this.$txtDom = this.$root.find(".scrapbook-extractor-dom");
-
-    this.$cover = $(jade.compile(".scrapbook-highlight-extractor")()).appendTo("body");
   }
 
   function populateByHash(hash) {
@@ -46,7 +44,7 @@ class Scrapbook.Extractor {
       extracted = $target.html().match(extractor.regexp)[1];
     } else if (extractor.dom) {
       var $subTarget = $target.find(extractor.dom);
-      this.highlight($subTarget);
+      Scrapbook.highlighter.highlight("extractor", $subTarget);
       extracted = $subTarget.text();
     }
 
@@ -62,16 +60,6 @@ class Scrapbook.Extractor {
   }
 
   function remove() {
-    this.$cover.remove();
     this.$root.remove();
-  }
-
-  function highlight($subTarget) {
-    var offset = $subTarget.offset();
-
-    this.$cover.css("top", offset.top);
-    this.$cover.css("left", offset.left);
-    this.$cover.width($subTarget.width());
-    this.$cover.height($subTarget.height());
   }
 }

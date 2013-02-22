@@ -1,6 +1,4 @@
 $m.Class.extend("Scrapbook.Inspector", function(KLASS, OO){
-  OO.include($m.EventEmitter);
-
   OO.addMember("initialize", function(){var self=this;
     this.initHTML();
     this.registerEvents();
@@ -8,11 +6,12 @@ $m.Class.extend("Scrapbook.Inspector", function(KLASS, OO){
 
   OO.addMember("initHTML", function(){var self=this;
     this.$root = $(jade.compile(".scrapbook-inspector")()).appendTo("body");
+    console.log(this.$root);
   });
 
   OO.addMember("registerEvents", function(){var self=this;
     $(window).mousemove(function(e) {
-      self.inspect(e.pageX - window.scrollX, e.pageY - window.scrollY);
+      self.inspecting(e.pageX - window.scrollX, e.pageY - window.scrollY);
     });
 
     this.$root.click(function($1,$2,$3){ self.inspected() });
@@ -34,7 +33,7 @@ $m.Class.extend("Scrapbook.Inspector", function(KLASS, OO){
     this.$root.hide();
   });
 
-  OO.addMember("inspect", function(x, y){var self=this;
+  OO.addMember("inspecting", function(x, y){var self=this;
     this.hide();
 
     if (this._enable) {
@@ -50,8 +49,20 @@ $m.Class.extend("Scrapbook.Inspector", function(KLASS, OO){
     }
   });
 
+  OO.addMember("inspect", function(callback){var self=this;
+    this.callback = callback;
+    this.enable();
+  });
+
   OO.addMember("inspected", function(){var self=this;
-    this.emit("inspected", this.$target);
+    if (this.callback) {
+      this.callback(this.$target);
+      this.callback = null;
+    }
+
+    this.disable();
   });
 });
+
+Scrapbook.inspector = new Scrapbook.Inspector();
 
