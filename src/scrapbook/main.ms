@@ -12,6 +12,7 @@ class Scrapbook.Main {
   function initialize() {
     this.index  = 0;
     this.panels = [];
+    this.rulestore = new RuleStore();
 
     this.initHTML();
     this.registerEvents();

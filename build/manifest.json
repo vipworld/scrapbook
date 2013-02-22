@@ -18,6 +18,7 @@
         "lib/sha1.js",
         "lib/oauth.js",
         "utils.js",
+        "scrapbook/rulestore.js",
         "scrapbook/main.js",
         "scrapbook/panel/base.js",
         "scrapbook/panel/ruleset.js",

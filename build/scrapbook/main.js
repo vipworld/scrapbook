@@ -6,6 +6,7 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   OO.addMember("initialize", function(){var self=this;
     this.index  = 0;
     this.panels = [];
+    this.rulestore = new RuleStore();
 
     this.initHTML();
     this.registerEvents();
