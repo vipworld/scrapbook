@@ -16,8 +16,12 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           ul#scrapbook-extractors
           p
           button.btn#scrapbook-extract Extract
-          p
-          ul#scrapbook-extracted-results
+          div
+            a.btn(href="javascript:void(0)").nextResult
+              img.icon-step-forward
+            a.btn(href="javascript:void(0)").prevResult
+              img.icon-step-backward
+            ul#scrapbook-extracted-results
     END
   }
 
