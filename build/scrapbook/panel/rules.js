@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   
-    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n    |  | \n    button#scrapbook-save Save\n  input#scrapbook-selector\n  ul#scrapbook-previews\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results";
+    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    ul#scrapbook-previews\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    input.input-xxlarge#scrapbook-selector\n    p\n    ul#scrapbook-extractors\n    p\n    button.btn#scrapbook-extract Extract\n    p\n    ul#scrapbook-extracted-results";
   
 
 	OO.addMember("NAME", "RULES");

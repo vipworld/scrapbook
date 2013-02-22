@@ -2,6 +2,7 @@ $m.Class.extend("Scrapbook.Panel.Base", function(KLASS, OO){
   OO.addMember("initialize", function($parent, main){var self=this;
     this.$parent = $parent;
     this.main = main;
+    this.rulestore = this.main.rulestore;
 
 		this.initHTML();
 		this.registerEvents();

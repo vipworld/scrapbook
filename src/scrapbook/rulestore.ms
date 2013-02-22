@@ -3,18 +3,31 @@ class RuleStore {
 
   function initialize() {
     this.getRules();
+    this.registerEvents();
   }
 
-  function saveRule(key) {
-  }
-
-  function getRules() {
-    chrome.storage.local.get(null, function(keys) {
-      console.log(keys);
+  function registerEvents() {
+    chrome.storage.onChanged.addListener(#{
+      self.getRules(#{
+        self.emit('change', $1);
+      });
     });
   }
 
   function deleteRule(key) {
+  }
+
+  function saveRule(key, obj) {
+    var store;
+    if ('object' == (typeof key)) store = key;
+    else store[key] = obj;
+    chrome.storage.local.set(store, #{
+      self.emit('rulesaved', $1);
+    })
+  }
+
+  function getRules(cb) {
+    chrome.storage.local.get(null, cb);
   }
 
   function clearRules() {
