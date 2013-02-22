@@ -16,7 +16,8 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           ul#scrapbook-extractors
           p
           button.btn#scrapbook-extract Extract
-    END
+          ul#scrapbook-extracted-results
+        END
 
     var FACTUAL_URL = "http://api.v3.factual.com";
   }
