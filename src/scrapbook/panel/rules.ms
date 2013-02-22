@@ -18,6 +18,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           button.btn#scrapbook-extract Extract Preview
           ul#scrapbook-extracted-results
           button.btn#scrapbook-submit Submit to Factual
+          p
         END
 
     var FACTUAL_URL = "http://api.v3.factual.com";
@@ -175,7 +176,6 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
       queries.map(#{ => "  " + $2 + ": " + JSON.stringify($1) }).join("\n")
     ].join("\n");
 
-    queries = [ queries[0] ];
     if (confirm("Are you sure you want to post these queries?\n" + text)) {
       queries.forEach(#{
         Scrapbook.factualApi.submit(self.hash.table_id, $1.values, #{

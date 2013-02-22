@@ -28,30 +28,18 @@ jQuery.fn.getPath = function (smart) {
 };
 
 $m.Class.extend("Scrapbook.Utils", function(KLASS, OO){
-  OO.addMember("oauthHeader", function(ck, cks, method, encodedurl){var self=this;
-    var accessor = { consumerSecret: cks, tokenSecret: ""};
-    var message = { action: encodedurl, method: method.toUpperCase(), parameters: [["oauth_version","1.0"],["oauth_consumer_key",ck]]};
+  OO.addMember("oauthHeader", function(ck, cks, method, url, params){var self=this;
+    params = $.extend(true, {
+      "oauth_version": "1.0",
+      "oauth_consumer_key": ck
+    }, params || {});
 
-    OAuth.setTimestampAndNonce(message);
-    OAuth.SignatureMethod.sign(message, accessor);
+    var accessor = { consumerKey: ck, consumerSecret: cks };
+    var message = { action: url, method: method.toUpperCase(), parameters: params};
 
-    var parameters = OAuth.getParameterMap(message).parameters;
-    parameters = parameters.sort(function(a, b){
-      if (a[0] < b[0]) return -1;
-      if (a[0] == b[0]) return 0;
-      if (a[0] > b[0]) return 1;
-     });
+    OAuth.completeRequest(message, accessor);
 
-    var parameterMap = OAuth.getParameterMap(message);
-    var baseStr = OAuth.decodeForm(OAuth.SignatureMethod.getBaseString(message));
-    var theSig = "";
-
-    var authorization = [];
-    parameters.forEach(function($1,$2,$3){
-      authorization.push($1[0] + "=\"" + $1[1] + "\"");
-    });
-
-    return "OAuth " + authorization.join(", ");
+    return OAuth.getAuthorizationHeader(null, message.parameters);
   });
 });
 
