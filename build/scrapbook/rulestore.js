@@ -23,7 +23,7 @@ $m.Class.extend("RuleStore", function(KLASS, OO){
       store[key] = obj;
 
       chrome.storage.local.set(store, function($1,$2,$3){
-        self.emit('rulesaved', $1);
+        self.emit('saved', $1);
       });
     });
   });

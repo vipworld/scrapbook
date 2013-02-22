@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
   
-    var HTML = ".panel.ruleset\n  h1 Existing Rulesets\n  ul.ruleset\n  button.btn.newRules New Rules\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    a(href=\"javascript:void(0)\").btn.addRule Add Rule\n  a.clearRules Clear Rules";
+    var HTML = ".panel.ruleset\n  h1 Existing Rulesets\n  ul.ruleset-list\n  button.btn.newRules New Rules\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    a(href=\"javascript:void(0)\").btn.addRule Add Rule\n  a(href=\"javascript:void(0)\").clearRules Clear Rules\n  | |\n  a(href=\"javascript:void(0)\").logRules Console Rules";
   
 
   OO.addMember("NAME", "RULESET");
@@ -12,7 +12,8 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
     this.$ruleList = this.$root.find('.ruleset-list:first');
     this.$ruleForm = this.$root.find('.ruleset-define-form:first');
     this.$addRule  = this.$root.find('.addRule:first');
-    this.$clearRules = this.$root.find('.clearRules');
+    this.$clearRules = this.$root.find('.clearRules:first');
+    this.$logRules = this.$root.find('.logRules:first');
 
     this.populate();
   });
@@ -21,8 +22,14 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
     this.$newRule.click(function() {
     });
 
-    this.rulestore.on('change', function($1,$2,$3){
+    this.rulestore.on('load', function($1,$2,$3){
       self.populate($1);
+    });
+
+    this.rulestore.on('change', function($1,$2,$3){
+      self.rulestore.getRules(function($1,$2,$3){
+        self.populate($1);
+      });
     });
 
     this.$newRule.click(function() {
@@ -36,21 +43,19 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
       self.saveRule(form);
       //self.clearForm();
 
-      self.populate();
       self.$newRule.show();
       self.$ruleForm.fadeOut();
     });
 
     this.$clearRules.click(function($1,$2,$3){
+      self.rulestore.clearRules(function($1,$2,$3){
+        console.log('rules cleared');
+      });
+    });
+    this.$logRules.click(function($1,$2,$3){
       self.rulestore.getRules(function($1,$2,$3){
         console.log($1);
       });
-    });
-  });
-
-  OO.addMember("getRules", function(){var self=this;
-    chrome.storage.local.get(null, function(keys) {
-      console.log(keys);
     });
   });
 
@@ -65,6 +70,8 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
     for (var key in rules) {
       html += "<li>" + key + "</li>"
     }
+    console.log(self.$ruleList, html)
+    this.$ruleList.html(html);
   });
 });
 

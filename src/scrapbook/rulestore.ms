@@ -23,7 +23,7 @@ class RuleStore {
       store[key] = obj;
 
       chrome.storage.local.set(store, #{
-        self.emit('rulesaved', $1);
+        self.emit('saved', $1);
       });
     });
   }
