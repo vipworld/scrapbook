@@ -37,7 +37,6 @@ $m.Class.extend("Scrapbook.Preview", function(KLASS, OO){
   });
 
   OO.addMember("showIndex", function(idx){var self=this;
-    console.log(this.count, this.currentIndex, this.previews[idx]);
     if (idx < 0) idx = 0;
     if (idx > (this.count - 1)) idx = this.count - 1
     this.currentIndex = idx;

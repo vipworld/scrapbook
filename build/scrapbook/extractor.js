@@ -1,6 +1,6 @@
 $m.Class.extend("Scrapbook.Extractor", function(KLASS, OO){
   
-    var HTML = "li.scrapbook-extractor\n  dt name:\n  dd\n    input.scrapbook-extractor-name\n  dt regexp:\n  dd\n    input.scrapbook-extractor-regexp\n  dt dom:\n  dd\n    input.scrapbook-extractor-dom";
+    var HTML = "li.scrapbook-extractor\n  .input-append\n    input.scrapbook-extractor-name(name=\"name\", type=\"text\", placeholder=\"field name\")\n    .btn-group\n      button.btn.dropdown-toggle Method\n      ul.dropdown-menu\n        li dom\n        li regex\n  input.scrapbook-extractor-dom(name=\"name\", type=\"text\", placeholder=\"selector/regex\")";
   
 
   OO.addMember("initialize", function($parent, hash){var self=this;

@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   
-    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    #scrapbook-previews\n    p\n    input.input-large#scrapbook-selector\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    ul#scrapbook-extractors\n    p\n    button.btn#scrapbook-extract Extract";
+    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    #scrapbook-previews\n    p\n    input.input-large#scrapbook-selector\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    ul#scrapbook-extractors.unstyled\n    p\n    button.btn#scrapbook-extract Extract\n    ul#scrapbook-extracted-results";
 
     var FACTUAL_URL = "http://api.v3.factual.com";
   

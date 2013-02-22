@@ -13,7 +13,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           input.input-large#scrapbook-selector
           p
           button.btn#scrapbook-add-extractor Add Extractor
-          ul#scrapbook-extractors
+          ul#scrapbook-extractors.unstyled
           p
           button.btn#scrapbook-extract Extract
           ul#scrapbook-extracted-results
