@@ -4,17 +4,19 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
       .panel.rules
         h1 Rules/Extractions
         .scrapbook-header
-          button#scrapbook-start-inspector Inspect
-          |  | 
-          button#scrapbook-add-extractor Add Extractor
-          |  | 
-          button#scrapbook-extract Extract
-          |  | 
-          button#scrapbook-save Save
-        input#scrapbook-selector
-        ul#scrapbook-previews
-        ul#scrapbook-extractors
-        ul#scrapbook-extracted-results
+          button.btn#scrapbook-start-inspector Inspect
+          button.btn.btn-success.pull-right#scrapbook-save Save
+          p
+          ul#scrapbook-previews
+          p
+          button.btn#scrapbook-add-extractor Add Extractor
+          input.input-xxlarge#scrapbook-selector
+          p
+          ul#scrapbook-extractors
+          p
+          button.btn#scrapbook-extract Extract
+          p
+          ul#scrapbook-extracted-results
     END
   }
 
