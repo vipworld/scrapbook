@@ -74,7 +74,11 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
   function saveRule(form) {
     var name     = form.find('input[name="name"]').val();
     var table_id = form.find('input[name="table"]').val();
-    this.rulestore.saveRule(name, { table_id: table_id });
+    this.rulestore.saveRule(name, { 
+      table_id: table_id,
+      timestamp: new Date(),
+      site: window.location.href
+    });
   }
 
   function populate(rules) {
@@ -82,7 +86,6 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
     for (var key in rules) {
       html += "<li>" + key + "</li>"
     }
-    console.log(self.$ruleList, html)
     this.$ruleList.html(html);
   }
 }

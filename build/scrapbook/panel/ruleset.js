@@ -62,7 +62,11 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
   OO.addMember("saveRule", function(form){var self=this;
     var name     = form.find('input[name="name"]').val();
     var table_id = form.find('input[name="table"]').val();
-    this.rulestore.saveRule(name, { table_id: table_id });
+    this.rulestore.saveRule(name, { 
+      table_id: table_id,
+      timestamp: new Date(),
+      site: window.location.href
+    });
   });
 
   OO.addMember("populate", function(rules){var self=this;
@@ -70,7 +74,6 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
     for (var key in rules) {
       html += "<li>" + key + "</li>"
     }
-    console.log(self.$ruleList, html)
     this.$ruleList.html(html);
   });
 });
