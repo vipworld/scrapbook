@@ -10,9 +10,9 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           p
           ul#scrapbook-previews
           p
-          button.btn#scrapbook-add-extractor Add Extractor
-          input.input-xxlarge#scrapbook-selector
+          input.input-large#scrapbook-selector
           p
+          button.btn#scrapbook-add-extractor Add Extractor
           ul#scrapbook-extractors
           p
           button.btn#scrapbook-extract Extract
