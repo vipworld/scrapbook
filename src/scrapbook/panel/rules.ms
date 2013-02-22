@@ -8,7 +8,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           button.btn.pull-right#scrapbook-back Back
           button.btn.btn-success.pull-right#scrapbook-save Save
           p
-          ul#scrapbook-previews
+          #scrapbook-previews
           p
           button.btn#scrapbook-add-extractor Add Extractor
           input.input-xxlarge#scrapbook-selector
@@ -16,12 +16,8 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           ul#scrapbook-extractors
           p
           button.btn#scrapbook-extract Extract
-          div
-            a.btn(href="javascript:void(0)").nextResult
-              img.icon-step-forward
-            a.btn(href="javascript:void(0)").prevResult
-              img.icon-step-backward
-            ul#scrapbook-extracted-results
+          p
+          ul#scrapbook-extracted-results
     END
   }
 
@@ -46,9 +42,12 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
 
     this.$txtSelector = this.$root.find("#scrapbook-selector");
 
-    this.$ulPreviews = this.$root.find("#scrapbook-previews");
+    this.$selectorPreviews = this.$root.find("#scrapbook-previews");
     this.$ulExtractors = this.$root.find("#scrapbook-extractors");
     this.$ulResults = this.$root.find("#scrapbook-extracted-results");
+
+
+    this.previewPane = new Scrapbook.Preview(self.$selectorPreviews)
   }
 
   function registerEvents() {
@@ -78,15 +77,13 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
 
   function process() {
     Scrapbook.highlighter.unHighlight("ALL");
-    this.$ulPreviews.html("");
+    //this.$selectorPreviews.html("");
 
     var $containers = this.getJqContainers();
 
-    for (var i=0,len=$containers.length; i<len; i++) {
-      var $container = $containers.eq(i);
-      Scrapbook.highlighter.highlight("container", $container)
-      new Scrapbook.Preview(self.$ulPreviews, $container)
-    }
+    this.previewPane.clear();
+    this.previewPane.addPreviews($containers);
+
   }
 
   function addExtractor() {
@@ -145,7 +142,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
   }
 
   function reset() {
-    this.$ulPreviews.html("");
+    //this.$ulPreviews.html("");
     Scrapbook.highlighter.unHighlight("ALL");
     this.extractors.forEach(#{ $1.remove() })
   }

@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   
-    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    ul#scrapbook-previews\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    input.input-xxlarge#scrapbook-selector\n    p\n    ul#scrapbook-extractors\n    p\n    button.btn#scrapbook-extract Extract\n    div\n      a.btn(href=\"javascript:void(0)\").nextResult\n        img.icon-step-forward\n      a.btn(href=\"javascript:void(0)\").prevResult\n        img.icon-step-backward\n      ul#scrapbook-extracted-results";
+    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    #scrapbook-previews\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    input.input-xxlarge#scrapbook-selector\n    p\n    ul#scrapbook-extractors\n    p\n    button.btn#scrapbook-extract Extract\n    p\n    ul#scrapbook-extracted-results";
   
 
 	OO.addMember("NAME", "RULES");
@@ -24,9 +24,12 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
 
     this.$txtSelector = this.$root.find("#scrapbook-selector");
 
-    this.$ulPreviews = this.$root.find("#scrapbook-previews");
+    this.$selectorPreviews = this.$root.find("#scrapbook-previews");
     this.$ulExtractors = this.$root.find("#scrapbook-extractors");
     this.$ulResults = this.$root.find("#scrapbook-extracted-results");
+
+
+    this.previewPane = new Scrapbook.Preview(self.$selectorPreviews)
   });
 
   OO.addMember("registerEvents", function(){var self=this;
@@ -56,15 +59,13 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
 
   OO.addMember("process", function(){var self=this;
     Scrapbook.highlighter.unHighlight("ALL");
-    this.$ulPreviews.html("");
+    //this.$selectorPreviews.html("");
 
     var $containers = this.getJqContainers();
 
-    for (var i=0,len=$containers.length; i<len; i++) {
-      var $container = $containers.eq(i);
-      Scrapbook.highlighter.highlight("container", $container)
-      new Scrapbook.Preview(self.$ulPreviews, $container)
-    }
+    this.previewPane.clear();
+    this.previewPane.addPreviews($containers);
+
   });
 
   OO.addMember("addExtractor", function(){var self=this;
@@ -123,7 +124,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   });
 
   OO.addMember("reset", function(){var self=this;
-    this.$ulPreviews.html("");
+    //this.$ulPreviews.html("");
     Scrapbook.highlighter.unHighlight("ALL");
     this.extractors.forEach(function($1,$2,$3){ $1.remove() })
   });
