@@ -3,7 +3,6 @@ class RuleStore {
 
   function initialize() {
     this.getRules(#{
-      console.log($1);
       self.emit('load', $1);
     });
     this.registerEvents();
@@ -32,7 +31,10 @@ class RuleStore {
     chrome.storage.local.get(null, cb);
   }
 
-  function getRule(key) {
+  function getRule(key, cb) {
+    this.getRules(#{
+      cb($1[key]);
+    });
   }
 
   function clearRules() {

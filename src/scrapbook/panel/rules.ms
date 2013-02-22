@@ -110,28 +110,35 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
   }
 
   function save() {
-    var name = prompt("Enter Rules' Name:", "Name");
-    chrome.storage.local.get("ruleset", function(ruleset) {
-      ruleset = ruleset || {};
-      ruleset[name] = self.toHash();
-      chrome.storage.local.set({ "ruleset": ruleset }, #{
-        alert("Saved!");
-      });
-    });
+    if (!this.hash.name) {
+      this.hash.name = prompt("Enter Rules' Name:", "Name");
+    }
+    this.rulestore.saveRule(this.hash.name, this.toHash());
   }
 
   function toHash() {
     return {
+      name: this.hash.name,
+      table_id: this.hash.table_id,
+      timestamp: new Date(),
+      site: this.hash.site,
       selector: this.$txtSelector.val(),
       extractors: this.extractors.map(#{ => $1.toHash() })
     };
   }
 
   function fromHash(hash) {
-    this.$txtSelector.val(hash["selector"]);
-    this.extractors.forEach(#{ $1.remove() });
-    hash["extractors"].forEach(#{
+    this.reset();
+    this.$txtSelector.val(hash["selector"] || "");
+    (hash["extractors"] || []).forEach(#{
       self.extractors.push(new Scrapbook.Extractions(self.$ulExtractors, $1));
-    })
+    });
+    this.hash = hash;
+  }
+
+  function reset() {
+    this.$ulPreviews.html("");
+    Scrapbook.highlighter.unHighlight("ALL");
+    this.extractors.forEach(#{ $1.remove() })
   }
 }

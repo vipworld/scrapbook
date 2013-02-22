@@ -70,4 +70,16 @@ class Scrapbook.Main {
       }
     }
   }
+
+  function getPanel(name) {
+    foreach (var panel in this.panels) {
+      if (panel.NAME == name) return panel;
+    }
+  }
+
+  function showRulesPanel(key, value) {
+    console.log(key, value)
+    this.getPanel("RULES").fromHash(value);
+    this.switchToPanel("RULES");
+  }
 }

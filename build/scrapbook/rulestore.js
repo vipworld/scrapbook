@@ -3,7 +3,6 @@ $m.Class.extend("RuleStore", function(KLASS, OO){
 
   OO.addMember("initialize", function(){var self=this;
     this.getRules(function($1,$2,$3){
-      console.log($1);
       self.emit('load', $1);
     });
     this.registerEvents();
@@ -32,7 +31,10 @@ $m.Class.extend("RuleStore", function(KLASS, OO){
     chrome.storage.local.get(null, cb);
   });
 
-  OO.addMember("getRule", function(key){var self=this;
+  OO.addMember("getRule", function(key, cb){var self=this;
+    this.getRules(function($1,$2,$3){
+      cb($1[key]);
+    });
   });
 
   OO.addMember("clearRules", function(){var self=this;

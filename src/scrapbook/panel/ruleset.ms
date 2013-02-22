@@ -83,12 +83,17 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
         console.log($1);
       });
     });
+
+    this.$ruleList.on("click", "li", #{
+      self.showRulesPanel($(this).text());
+    });
   }
 
   function saveRule(form) {
     var name     = this.$nameInput.val();
     var table_id = this.$tableInput.val();
     this.rulestore.saveRule(name, { 
+      name: name,
       table_id: table_id,
       timestamp: new Date(),
       site: window.location.href
@@ -106,5 +111,11 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
       html += "<li>" + key + "</li>"
     }
     this.$ruleList.html(html);
+  }
+
+  function showRulesPanel(key) {
+    this.rulestore.getRule(key, #{
+      self.main.showRulesPanel(key, $1);
+    });
   }
 }

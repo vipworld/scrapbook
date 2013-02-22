@@ -64,5 +64,17 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
       }
     }
   });
+
+  OO.addMember("getPanel", function(name){var self=this;
+    for (var _i_1=0,panel=null,_list_1=this.panels,_len_1=_list_1.length;(panel=_list_1[_i_1])||_i_1<_len_1;_i_1++) {
+      if (panel.NAME == name) return panel;
+    }
+  });
+
+  OO.addMember("showRulesPanel", function(key, value){var self=this;
+    console.log(key, value)
+    this.getPanel("RULES").fromHash(value);
+    this.switchToPanel("RULES");
+  });
 });
 

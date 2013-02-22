@@ -93,29 +93,36 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   });
 
   OO.addMember("save", function(){var self=this;
-    var name = prompt("Enter Rules' Name:", "Name");
-    chrome.storage.local.get("ruleset", function(ruleset) {
-      ruleset = ruleset || {};
-      ruleset[name] = self.toHash();
-      chrome.storage.local.set({ "ruleset": ruleset }, function($1,$2,$3){
-        alert("Saved!");
-      });
-    });
+    if (!this.hash.name) {
+      this.hash.name = prompt("Enter Rules' Name:", "Name");
+    }
+    this.rulestore.saveRule(this.hash.name, this.toHash());
   });
 
   OO.addMember("toHash", function(){var self=this;
     return {
+      name: this.hash.name,
+      table_id: this.hash.table_id,
+      timestamp: new Date(),
+      site: this.hash.site,
       selector: this.$txtSelector.val(),
       extractors: this.extractors.map(function($1,$2,$3){ return  $1.toHash() })
     };
   });
 
   OO.addMember("fromHash", function(hash){var self=this;
-    this.$txtSelector.val(hash["selector"]);
-    this.extractors.forEach(function($1,$2,$3){ $1.remove() });
-    hash["extractors"].forEach(function($1,$2,$3){
+    this.reset();
+    this.$txtSelector.val(hash["selector"] || "");
+    (hash["extractors"] || []).forEach(function($1,$2,$3){
       self.extractors.push(new Scrapbook.Extractions(self.$ulExtractors, $1));
-    })
+    });
+    this.hash = hash;
+  });
+
+  OO.addMember("reset", function(){var self=this;
+    this.$ulPreviews.html("");
+    Scrapbook.highlighter.unHighlight("ALL");
+    this.extractors.forEach(function($1,$2,$3){ $1.remove() })
   });
 });
 

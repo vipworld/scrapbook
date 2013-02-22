@@ -65,12 +65,17 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
         console.log($1);
       });
     });
+
+    this.$ruleList.on("click", "li", function($1,$2,$3){
+      self.showRulesPanel($(this).text());
+    });
   });
 
   OO.addMember("saveRule", function(form){var self=this;
     var name     = this.$nameInput.val();
     var table_id = this.$tableInput.val();
     this.rulestore.saveRule(name, { 
+      name: name,
       table_id: table_id,
       timestamp: new Date(),
       site: window.location.href
@@ -88,6 +93,12 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
       html += "<li>" + key + "</li>"
     }
     this.$ruleList.html(html);
+  });
+
+  OO.addMember("showRulesPanel", function(key){var self=this;
+    this.rulestore.getRule(key, function($1,$2,$3){
+      self.main.showRulesPanel(key, $1);
+    });
   });
 });
 
