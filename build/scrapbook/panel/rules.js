@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   
-    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    #scrapbook-previews\n    p\n    input.input-large#scrapbook-selector\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    ul#scrapbook-extractors.unstyled\n    p\n    button.btn#scrapbook-extract Extract\n    ul#scrapbook-extracted-results\n    button.btn#scrapbook-submit Submit to Factual";
+    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    #scrapbook-previews\n    p\n    input.input-large#scrapbook-selector\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    ul#scrapbook-extractors.unstyled\n    p\n    button.btn#scrapbook-extract Extract Preview\n    ul#scrapbook-extracted-results\n    button.btn#scrapbook-submit Submit to Factual";
 
     var FACTUAL_URL = "http://api.v3.factual.com";
   
@@ -157,7 +157,14 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
       queries.map(function($1,$2,$3){ return  "  " + $2 + ": " + JSON.stringify($1) }).join("\n")
     ].join("\n");
 
-    alert(text);
+    queries = [ queries[0] ];
+    if (confirm("Are you sure you want to post these queries?\n" + text)) {
+      queries.forEach(function($1,$2,$3){
+        Scrapbook.factualApi.submit(self.hash.table_id, $1.values, function($1,$2,$3){
+          console.log($1);
+        });
+      });
+    }
   });
 });
 

@@ -28,45 +28,30 @@ jQuery.fn.getPath = function (smart) {
 };
 
 class Scrapbook.Utils {
-  function oauthHeader(ck,cks,encodedurl) {
+  function oauthHeader(ck, cks, method, encodedurl) {
     var accessor = { consumerSecret: cks, tokenSecret: ""};
-    var message = { action: encodedurl, method: "GET", parameters: [["oauth_version","1.0"],["oauth_consumer_key",ck]]};
+    var message = { action: encodedurl, method: method.toUpperCase(), parameters: [["oauth_version","1.0"],["oauth_consumer_key",ck]]};
 
     OAuth.setTimestampAndNonce(message);
     OAuth.SignatureMethod.sign(message, accessor);
+
+    var parameters = OAuth.getParameterMap(message).parameters;
+    parameters = parameters.sort(#(a, b){
+      if (a[0] < b[0]) return -1;
+      if (a[0] == b[0]) return 0;
+      if (a[0] > b[0]) return 1;
+     });
 
     var parameterMap = OAuth.getParameterMap(message);
     var baseStr = OAuth.decodeForm(OAuth.SignatureMethod.getBaseString(message));
     var theSig = "";
 
-    if (parameterMap.parameters) {
-      for (var item in parameterMap.parameters) {
-        for (var subitem in parameterMap.parameters[item]) {
-          if (parameterMap.parameters[item][subitem] == "oauth_signature") {
-            theSig = parameterMap.parameters[item][1];
-            break;
-          }
-        }
-      }
-    }
-
-    var paramList = baseStr[2][0].split("&");
-    paramList.push("oauth_signature="+ theSig);
-    paramList.sort(function(a,b) {
-      if (a[0] < b[0]) return -1;
-      if (a[0] > b[0]) return 1;
-      if (a[1] < b[1]) return  -1;
-      if (a[1] > b[1]) return 1;
-      return 0;
+    var authorization = [];
+    parameters.forEach(#{
+      authorization.push($1[0] + "=\"" + $1[1] + "\"");
     });
 
-    var authorization = [];
-    for (var x in paramList) {
-      var param = paramList[x].split("=");
-      authorization.push(param[0] + "=\"" + param[1] + "\"");
-    }
-
-    return "OAuth realm=\"\", " + authorization.join(", ");
+    return "OAuth " + authorization.join(", ");
   }
 }
 

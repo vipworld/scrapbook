@@ -175,6 +175,13 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
       queries.map(#{ => "  " + $2 + ": " + JSON.stringify($1) }).join("\n")
     ].join("\n");
 
-    alert(text);
+    queries = [ queries[0] ];
+    if (confirm("Are you sure you want to post these queries?\n" + text)) {
+      queries.forEach(#{
+        Scrapbook.factualApi.submit(self.hash.table_id, $1.values, #{
+          console.log($1);
+        });
+      });
+    }
   }
 }
