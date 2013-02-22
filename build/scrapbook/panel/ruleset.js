@@ -21,8 +21,8 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
     this.$newRule.click(function() {
     });
 
-    chrome.storage.onChanged.addListener(function($1,$2,$3){
-      self.populate();
+    this.rulestore.on('change', function($1,$2,$3){
+      self.populate($1);
     });
 
     this.$newRule.click(function() {
@@ -42,16 +42,10 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
     });
 
     this.$clearRules.click(function($1,$2,$3){
-      //self.clearRules();
-      self.getRules();
+      self.rulestore.getRules(function($1,$2,$3){
+        console.log($1);
+      });
     });
-  });
-
-  OO.addMember("clearRules", function(){var self=this;
-    chrome.storage.local.clear();
-  });
-
-  OO.addMember("deleteRule", function(key){var self=this;
   });
 
   OO.addMember("getRules", function(){var self=this;
@@ -63,24 +57,14 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
   OO.addMember("saveRule", function(form){var self=this;
     var name     = form.find('input[name="name"]').val();
     var table_id = form.find('input[name="table"]').val();
-    var storage = {
-      name: name,
-      table_id: table_id || ''
-    };
-    chrome.storage.local.set(storage);
+    this.rulestore.saveRule(name, { table_id: table_id });
   });
 
-  OO.addMember("populate", function(){var self=this;
-    chrome.storage.local.get(null, function(obj) {
-      self.rulesets = obj || {};
-
-      var html = "";
-      for (var key in self.ruleset) {
-        html += "<li>" + key + "</li>"
-      }
-      self.$ruleList.html(html);
-    });
-
+  OO.addMember("populate", function(rules){var self=this;
+    var html = "";
+    for (var key in rules) {
+      html += "<li>" + key + "</li>"
+    }
   });
 });
 

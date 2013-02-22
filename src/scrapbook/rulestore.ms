@@ -2,7 +2,9 @@ class RuleStore {
   include $m.EventEmitter;
 
   function initialize() {
-    this.getRules();
+    this.getRules(#{
+      self.emit('load', $1);
+    });
     this.registerEvents();
   }
 

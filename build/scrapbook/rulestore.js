@@ -2,7 +2,9 @@ $m.Class.extend("RuleStore", function(KLASS, OO){
   OO.include($m.EventEmitter);
 
   OO.addMember("initialize", function(){var self=this;
-    this.getRules();
+    this.getRules(function($1,$2,$3){
+      self.emit('load', $1);
+    });
     this.registerEvents();
   });
 

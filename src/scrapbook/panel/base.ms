@@ -2,6 +2,7 @@ class Scrapbook.Panel.Base {
   function initialize($parent, main) {
     this.$parent = $parent;
     this.main = main;
+    console.log(this.main);
     this.rulestore = this.main.rulestore;
 
 		this.initHTML();

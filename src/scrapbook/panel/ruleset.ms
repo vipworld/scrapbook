@@ -31,8 +31,8 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
     this.$newRule.click(function() {
     });
 
-    chrome.storage.onChanged.addListener(#{
-      self.populate();
+    this.rulestore.on('change', #{
+      self.populate($1);
     });
 
     this.$newRule.click(function() {
@@ -52,16 +52,10 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
     });
 
     this.$clearRules.click(#{
-      //self.clearRules();
-      self.getRules();
+      self.rulestore.getRules(#{
+        console.log($1);
+      });
     });
-  }
-
-  function clearRules() {
-    chrome.storage.local.clear();
-  }
-
-  function deleteRule(key) {
   }
 
   function getRules() {
@@ -73,23 +67,13 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
   function saveRule(form) {
     var name     = form.find('input[name="name"]').val();
     var table_id = form.find('input[name="table"]').val();
-    var storage = {
-      name: name,
-      table_id: table_id || ''
-    };
-    chrome.storage.local.set(storage);
+    this.rulestore.saveRule(name, { table_id: table_id });
   }
 
-  function populate() {
-    chrome.storage.local.get(null, function(obj) {
-      self.rulesets = obj || {};
-
-      var html = "";
-      for (var key in self.ruleset) {
-        html += "<li>" + key + "</li>"
-      }
-      self.$ruleList.html(html);
-    });
-
+  function populate(rules) {
+    var html = "";
+    for (var key in rules) {
+      html += "<li>" + key + "</li>"
+    }
   }
 }
