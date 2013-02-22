@@ -22,10 +22,12 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
 
 	var NAME = "RULES";
 
-  function initialize($parent) {
+  function initialize($parent, main) {
 		this.extractors = [];
 
-		this.$super($parent);
+    this.inspector = new Scrapbook.Inspector();
+
+		this.$super($parent, main);
   }
 
   function initHTML() {

@@ -5,10 +5,12 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
 
 	OO.addMember("NAME", "RULES");
 
-  OO.addMember("initialize", function($parent){var self=this;
+  OO.addMember("initialize", function($parent, main){var self=this;
 		this.extractors = [];
 
-		this.$super($parent);
+    this.inspector = new Scrapbook.Inspector();
+
+		this.$super($parent, main);
   });
 
   OO.addMember("initHTML", function(){var self=this;
