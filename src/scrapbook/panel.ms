@@ -1,8 +1,33 @@
 //var root = '<div class="scrapbook"></div>';
-$m.Class.extend("Panel", function(KLASS, OO){
-  OO.addMember("initialize", function($root, rules){var self=this;
+class Panel {
+  function initialize($root, rules) {
 
-    var template = "a.close.icon-white &times;\n.panel.rulesets\n  h1 Existing Rulesets\n  ul.ruleset-list.unstyled\n  button.btn.newRule New Rule\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    button.btn.addRule Add Rule\n  a.clearRules Clear Rules\n  a.next Next\n\n.panel.rule.panel-out\n  h1 Rules/Extractions\n  .scrapbook-header\n    button#scrapbook-start-inspector Inspect\n    |  | \n    button#scrapbook-add-extractor Add Extractor\n    |  | \n    button#scrapbook-extract Extract\n  input#scrapbook-selector\n  ul#scrapbook-extractors\n  ul#scrapbook-extracted-results\n  a.back Back";
+    var template = <<END;
+      a.close.icon-white &times;
+      .panel.rulesets
+        h1 Existing Rulesets
+        ul.ruleset-list.unstyled
+        button.btn.newRule New Rule
+        form.ruleset-define-form(style="display: none;")
+          input(type="text", name="name", placeholder="name")
+          input(type="text", name="table", placeholder="factual table id (optional)")
+          button.btn.addRule Add Rule
+        a.clearRules Clear Rules
+        a.next Next
+
+      .panel.rule.panel-out
+        h1 Rules/Extractions
+        .scrapbook-header
+          button#scrapbook-start-inspector Inspect
+          |  | 
+          button#scrapbook-add-extractor Add Extractor
+          |  | 
+          button#scrapbook-extract Extract
+        input#scrapbook-selector
+        ul#scrapbook-extractors
+        ul#scrapbook-extracted-results
+        a.back Back
+    END
 
     this.rules = rules;
     $root.append(jade.compile(template));
@@ -12,9 +37,9 @@ $m.Class.extend("Panel", function(KLASS, OO){
 
     this.panes = {};
     return this;
-  });
+  }
 
-  OO.addMember("initHTML", function(){var self=this;
+  function initHTML() {
     this.$newRule    = this.$root.find('.newRule:first');
     this.$addRule    = this.$root.find('.addRule:first');
     this.$ruleForm   = this.$root.find('.ruleset-define-form:first');
@@ -25,9 +50,9 @@ $m.Class.extend("Panel", function(KLASS, OO){
     this.$toRules    = this.$root.find('.back');
     this.$clearRules = this.$root.find('.clearRules');
     this.drawRules();
-  });
+  }
 
-  OO.addMember("registerEvents", function(){var self=this;
+  function registerEvents() {
     this.$toRule.click(function() {
       self.rulePanel();
     });
@@ -53,33 +78,33 @@ $m.Class.extend("Panel", function(KLASS, OO){
       self.$ruleForm.fadeOut();
     });
 
-    this.$clearRules.click(function($1,$2,$3){
+    this.$clearRules.click(#{
       self.rules.clearRules();
     });
-  });
+  }
 
-  OO.addMember("rulePanel", function(rule){var self=this;
+  function rulePanel(rule) {
     this.$rulePanel.removeClass('panel-out')
       .addClass('panel-in');
-  });
+  }
 
-  OO.addMember("rulesPanel", function(){var self=this;
+  function rulesPanel() {
     this.$rulePanel.removeClass('panel-in')
       .addClass('panel-out');
-  });
+  }
 
-  OO.addMember("clearForm", function(){var self=this;
+  function clearForm() {
     // stub
-  });
+  }
 
-  OO.addMember("saveRule", function(vals){var self=this;
+  function saveRule(vals) {
     console.log('save rule ', vals);
     this.rules.setRule(vals[0].value, { data: 'hello' });
-  });
+  }
 
-  OO.addMember("drawRules", function(){var self=this;
+  function drawRules() {
     this.$ruleList.html('');   
-    this.rules.getRules(function(rules){
+    this.rules.getRules(#(rules){
       for (var rule in rules) {
         console.log(rules[rule]);
         var html = '';
@@ -91,24 +116,23 @@ $m.Class.extend("Panel", function(KLASS, OO){
         self.$ruleList.append(html);
       }
     });
-  });
+  }
  
 
-  OO.addMember("addPane", function(name, html){var self=this;
+  function addPane(name, html) {
     this.panes[name] = true;
-  });
+  }
 
-});
+}
 
 //var panel = new Panel(root);
 
-$m.Class.extend("RulesManager", function(KLASS, OO){
+class RulesManager {
   // handles ui for rule panel
   // displays preview
   // navigate through matches 
   // edit and save rules
-  OO.addMember("initialize", function(root){var self=this;
+  function initialize(root) {
    
-  });
-});
-
+  }
+}

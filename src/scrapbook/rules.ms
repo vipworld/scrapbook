@@ -36,6 +36,12 @@ class Rules {
     });
   }
 
+  function clearRules() {
+    chrome.extension.sendRequest({ 
+      method: "clearRules"
+    });
+  }
+
 
 }
 

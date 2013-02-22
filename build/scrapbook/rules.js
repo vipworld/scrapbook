@@ -36,6 +36,12 @@ $m.Class.extend("Rules", function(KLASS, OO){
     });
   });
 
+  OO.addMember("clearRules", function(){var self=this;
+    chrome.extension.sendRequest({ 
+      method: "clearRules"
+    });
+  });
+
 
 });
 

@@ -4,9 +4,7 @@ class Scrapbook.Main {
       .scrapbook
         .actions
           a.close.icon-white &times;
-          a.prev <-
-          |  
-          a.next ->
+          a.back(href="javascript:void(0)") Back
         .panels
     END
   }
@@ -24,21 +22,22 @@ class Scrapbook.Main {
     this.$root = $(jade.compile(HTML)()).appendTo("body");
 
     this.$close  = this.$root.find(".close");
-    this.$prev   = this.$root.find(".prev");
-    this.$next   = this.$root.find(".next");
+    this.$back   = this.$root.find(".back:first").hide();
+    //this.$prev   = this.$root.find(".prev");
+    //this.$next   = this.$root.find(".next");
     this.$panels = this.$root.find(".panels");
   }
 
   function registerEvents() {
     this.$close.click(#{});
-    this.$prev.click(#{ self.prevPanel() })
-    this.$next.click(#{ self.nextPanel() })
+    //this.$prev.click(#{ self.prevPanel() })
+    //this.$next.click(#{ self.nextPanel() })
   }
 
   function initPanels() {
-    this.panels.push(new Scrapbook.Panel.Ruleset(this.$panels));
-    this.panels.push(new Scrapbook.Panel.Rules(this.$panels));
-    this.panels.push(new Scrapbook.Panel.Api(this.$panels));
+    this.panels.push(new Scrapbook.Panel.Ruleset(this.$panels, this));
+    this.panels.push(new Scrapbook.Panel.Rules(this.$panels, this));
+    this.panels.push(new Scrapbook.Panel.Api(this.$panels, this));
 
     this.switchToPanel("RULESET");
   }

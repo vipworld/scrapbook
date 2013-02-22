@@ -1,6 +1,6 @@
 $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   
-    var HTML = ".scrapbook\n  .actions\n    a.close.icon-white &times;\n    a.prev <-\n    |  \n    a.next ->\n  .panels";
+    var HTML = ".scrapbook\n  .actions\n    a.close.icon-white &times;\n    a.back(href=\"javascript:void(0)\") Back\n  .panels";
   
 
   OO.addMember("initialize", function(){var self=this;
@@ -16,21 +16,22 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
     this.$root = $(jade.compile(HTML)()).appendTo("body");
 
     this.$close  = this.$root.find(".close");
-    this.$prev   = this.$root.find(".prev");
-    this.$next   = this.$root.find(".next");
+    this.$back   = this.$root.find(".back:first").hide();
+    //this.$prev   = this.$root.find(".prev");
+    //this.$next   = this.$root.find(".next");
     this.$panels = this.$root.find(".panels");
   });
 
   OO.addMember("registerEvents", function(){var self=this;
     this.$close.click(function($1,$2,$3){});
-    this.$prev.click(function($1,$2,$3){ self.prevPanel() })
-    this.$next.click(function($1,$2,$3){ self.nextPanel() })
+    //this.$prev.click(#{ self.prevPanel() })
+    //this.$next.click(#{ self.nextPanel() })
   });
 
   OO.addMember("initPanels", function(){var self=this;
-    this.panels.push(new Scrapbook.Panel.Ruleset(this.$panels));
-    this.panels.push(new Scrapbook.Panel.Rules(this.$panels));
-    this.panels.push(new Scrapbook.Panel.Api(this.$panels));
+    this.panels.push(new Scrapbook.Panel.Ruleset(this.$panels, this));
+    this.panels.push(new Scrapbook.Panel.Rules(this.$panels, this));
+    this.panels.push(new Scrapbook.Panel.Api(this.$panels, this));
 
     this.switchToPanel("RULESET");
   });
