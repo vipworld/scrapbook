@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   
-    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    ul#scrapbook-previews\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    input.input-xxlarge#scrapbook-selector\n    p\n    ul#scrapbook-extractors\n    p\n    button.btn#scrapbook-extract Extract\n    p\n    ul#scrapbook-extracted-results";
+    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    ul#scrapbook-previews\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    input.input-xxlarge#scrapbook-selector\n    p\n    ul#scrapbook-extractors\n    p\n    button.btn#scrapbook-extract Extract\n    p\n    ul#scrapbook-extracted-results";
   
 
 	OO.addMember("NAME", "RULES");
@@ -20,6 +20,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");
     this.$btnExtract = this.$root.find("#scrapbook-extract");
     this.$btnSave = this.$root.find("#scrapbook-save");
+    this.$btnBack = this.$root.find("#scrapbook-back");
 
     this.$txtSelector = this.$root.find("#scrapbook-selector");
 
@@ -33,6 +34,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$btnAddExtractor.click(function($1,$2,$3){ self.addExtractor() });
     this.$btnExtract.click(function($1,$2,$3){ self.extract() });
     this.$btnSave.click(function($1,$2,$3){ self.save() });
+    this.$btnBack.click(function($1,$2,$3){ self.back() });
     this.$txtSelector.keyup(function($1,$2,$3){ self.process() });
   });
 
@@ -123,6 +125,10 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$ulPreviews.html("");
     Scrapbook.highlighter.unHighlight("ALL");
     this.extractors.forEach(function($1,$2,$3){ $1.remove() })
+  });
+
+  OO.addMember("back", function(){var self=this;
+    this.main.switchToPanel("RULESET");
   });
 });
 

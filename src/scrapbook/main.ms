@@ -24,15 +24,11 @@ class Scrapbook.Main {
 
     this.$close  = this.$root.find(".close");
     this.$back   = this.$root.find(".back:first").hide();
-    //this.$prev   = this.$root.find(".prev");
-    //this.$next   = this.$root.find(".next");
     this.$panels = this.$root.find(".panels");
   }
 
   function registerEvents() {
     this.$close.click(#{});
-    //this.$prev.click(#{ self.prevPanel() })
-    //this.$next.click(#{ self.nextPanel() })
   }
 
   function initPanels() {
@@ -41,24 +37,6 @@ class Scrapbook.Main {
     this.panels.push(new Scrapbook.Panel.Api(this.$panels, this));
 
     this.switchToPanel("RULESET");
-  }
-
-  function prevPanel() {
-    this.panels[this.index].hide();
-
-    this.index--;
-    if (this.index < 0) this.index = this.panels.length - 1;
-
-    this.panels[this.index].show();
-  }
-
-  function nextPanel() {
-    this.panels[this.index].hide();
-
-    this.index++;
-    if (this.index > (this.panels.length - 1)) this.index = 0;
-
-    this.panels[this.index].show();
   }
 
   function switchToPanel(name) {
@@ -78,7 +56,6 @@ class Scrapbook.Main {
   }
 
   function showRulesPanel(key, value) {
-    console.log(key, value)
     this.getPanel("RULES").fromHash(value);
     this.switchToPanel("RULES");
   }

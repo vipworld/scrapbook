@@ -5,6 +5,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
         h1 Rules/Extractions
         .scrapbook-header
           button.btn#scrapbook-start-inspector Inspect
+          button.btn.pull-right#scrapbook-back Back
           button.btn.btn-success.pull-right#scrapbook-save Save
           p
           ul#scrapbook-previews
@@ -37,6 +38,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$btnAddExtractor = this.$root.find("#scrapbook-add-extractor");
     this.$btnExtract = this.$root.find("#scrapbook-extract");
     this.$btnSave = this.$root.find("#scrapbook-save");
+    this.$btnBack = this.$root.find("#scrapbook-back");
 
     this.$txtSelector = this.$root.find("#scrapbook-selector");
 
@@ -50,6 +52,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$btnAddExtractor.click(#{ self.addExtractor() });
     this.$btnExtract.click(#{ self.extract() });
     this.$btnSave.click(#{ self.save() });
+    this.$btnBack.click(#{ self.back() });
     this.$txtSelector.keyup(#{ self.process() });
   }
 
@@ -140,5 +143,9 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$ulPreviews.html("");
     Scrapbook.highlighter.unHighlight("ALL");
     this.extractors.forEach(#{ $1.remove() })
+  }
+
+  function back() {
+    this.main.switchToPanel("RULESET");
   }
 }

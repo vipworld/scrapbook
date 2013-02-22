@@ -18,15 +18,11 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
 
     this.$close  = this.$root.find(".close");
     this.$back   = this.$root.find(".back:first").hide();
-    //this.$prev   = this.$root.find(".prev");
-    //this.$next   = this.$root.find(".next");
     this.$panels = this.$root.find(".panels");
   });
 
   OO.addMember("registerEvents", function(){var self=this;
     this.$close.click(function($1,$2,$3){});
-    //this.$prev.click(#{ self.prevPanel() })
-    //this.$next.click(#{ self.nextPanel() })
   });
 
   OO.addMember("initPanels", function(){var self=this;
@@ -35,24 +31,6 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
     this.panels.push(new Scrapbook.Panel.Api(this.$panels, this));
 
     this.switchToPanel("RULESET");
-  });
-
-  OO.addMember("prevPanel", function(){var self=this;
-    this.panels[this.index].hide();
-
-    this.index--;
-    if (this.index < 0) this.index = this.panels.length - 1;
-
-    this.panels[this.index].show();
-  });
-
-  OO.addMember("nextPanel", function(){var self=this;
-    this.panels[this.index].hide();
-
-    this.index++;
-    if (this.index > (this.panels.length - 1)) this.index = 0;
-
-    this.panels[this.index].show();
   });
 
   OO.addMember("switchToPanel", function(name){var self=this;
@@ -72,7 +50,6 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   });
 
   OO.addMember("showRulesPanel", function(key, value){var self=this;
-    console.log(key, value)
     this.getPanel("RULES").fromHash(value);
     this.switchToPanel("RULES");
   });
