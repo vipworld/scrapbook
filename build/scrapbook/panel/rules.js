@@ -119,6 +119,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
       self.extractors.push(new Scrapbook.Extractor(self.$ulExtractors, $1));
     });
     this.hash = hash;
+    this.process();
   });
 
   OO.addMember("reset", function(){var self=this;

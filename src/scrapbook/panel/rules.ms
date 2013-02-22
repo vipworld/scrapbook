@@ -137,6 +137,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
       self.extractors.push(new Scrapbook.Extractor(self.$ulExtractors, $1));
     });
     this.hash = hash;
+    this.process();
   }
 
   function reset() {
