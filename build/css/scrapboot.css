@@ -1990,7 +1990,7 @@
   *margin-right: .3em;
   line-height: 14px;
   vertical-align: text-top;
-  background-image: url("../img/glyphicons-halflings.png");
+  background-image: url("chrome-extension://__MSG_@@extension_id__/img/glyphicons-halflings.png");
   background-position: 14px 14px;
   background-repeat: no-repeat;
 }
@@ -2011,7 +2011,7 @@
 .scrapbook .dropdown-submenu:focus > a > [class^="icon-"],
 .scrapbook .dropdown-submenu:hover > a > [class*=" icon-"],
 .scrapbook .dropdown-submenu:focus > a > [class*=" icon-"] {
-  background-image: url("../img/glyphicons-halflings-white.png");
+  background-image: url("chrome-extension://__MSG_@@extension_id__/img/glyphicons-halflings-white.png");
 }
 .scrapbook .icon-glass {
   background-position: 0      0;

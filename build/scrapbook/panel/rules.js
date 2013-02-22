@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
   
-    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    #scrapbook-previews\n    p\n    input.input-large#scrapbook-selector\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    ul#scrapbook-extractors.unstyled\n    p\n    button.btn#scrapbook-extract Extract\n    ul#scrapbook-extracted-results";
+    var HTML = ".panel.rules\n  h1 Rules/Extractions\n  .scrapbook-header\n    button.btn#scrapbook-start-inspector Inspect\n    button.btn.pull-right#scrapbook-back Back\n    button.btn.btn-success.pull-right#scrapbook-save Save\n    p\n    #scrapbook-previews\n    p\n    input.input-large#scrapbook-selector\n    p\n    button.btn#scrapbook-add-extractor Add Extractor\n    ul#scrapbook-extractors.unstyled\n    p\n    button.btn#scrapbook-extract Extract\n    ul#scrapbook-extracted-results\n    button.btn#scrapbook-submit Submit to Factual";
 
     var FACTUAL_URL = "http://api.v3.factual.com";
   
@@ -32,7 +32,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     this.$ulResults = this.$root.find("#scrapbook-extracted-results");
 
 
-    this.previewPane = new Scrapbook.Preview(self.$selectorPreviews)
+    this.previewPane = new Scrapbook.Preview(self.$selectorPreviews);
   });
 
   OO.addMember("registerEvents", function(){var self=this;
@@ -63,13 +63,10 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
 
   OO.addMember("process", function(){var self=this;
     Scrapbook.highlighter.unHighlight("ALL");
-    //this.$selectorPreviews.html("");
 
     var $containers = this.getJqContainers();
 
-    this.previewPane.clear();
-    this.previewPane.addPreviews($containers);
-
+    this.previewPane.populateByTargets($containers);
   });
 
   OO.addMember("addExtractor", function(){var self=this;
@@ -102,7 +99,9 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
     if (!this.hash.name) {
       this.hash.name = prompt("Enter Rules' Name:", "Name");
     }
-    this.rulestore.saveRule(this.hash.name, this.toHash());
+    this.rulestore.saveRule(this.hash.name, this.toHash(), function($1,$2,$3){
+      alert("Saved!");
+    });
   });
 
   OO.addMember("toHash", function(){var self=this;

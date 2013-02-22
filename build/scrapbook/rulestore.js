@@ -16,14 +16,12 @@ $m.Class.extend("RuleStore", function(KLASS, OO){
     });
   });
 
-  OO.addMember("saveRule", function(key, obj){var self=this;
+  OO.addMember("saveRule", function(key, obj, cb){var self=this;
     this.getRules(function(rules){
       var store = rules || {};
       store[key] = obj;
 
-      chrome.storage.local.set(store, function($1,$2,$3){
-        self.emit('saved', $1);
-      });
+      chrome.storage.local.set(store, cb);
     });
   });
 

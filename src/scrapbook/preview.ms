@@ -7,6 +7,10 @@ class Scrapbook.Preview {
         a.pull-right.btn(href="javascript:void(0)").prevResult Prev
       ul#scrapbook-previews-list
     END
+
+    var PREVIEW_HTML = <<END;
+      li.preview(style="display:none")
+    END
   }
 
   function initialize($root) {
@@ -22,6 +26,8 @@ class Scrapbook.Preview {
     this.$prev = this.$root.find('.prevResult');
     this.$next = this.$root.find('.nextResult');
     this.$resultCount = this.$root.find('.result-count');
+
+    this.previewTmpl = jade.compile(PREVIEW_HTML);
   }
 
   function registerEvents() {
@@ -38,6 +44,7 @@ class Scrapbook.Preview {
   function clear() {
     this.$list.html('');
     this.$resultCount.html('');
+    this.previews = [];
     this.currentIndex = 0;
     this.count = 0;
   }
@@ -55,19 +62,24 @@ class Scrapbook.Preview {
     this.$resultCount.html('Results: ' + this.count.toString());
   }
 
-  function addPreviews($containers) {
-    this.count = $containers.length;
+  function populateByTargets($targets) {
+    this.clear();
 
-    for (var i=0,len=$containers.length; i<len; i++) {
-      var $container = $containers.eq(i);
-      var result = $container.html();
+    this.count = $targets.length;
+
+    for (var i=0,len=$targets.length; i<len; i++) {
+      var $container = $targets.eq(i);
+      var $previewLi = $(this.previewTmpl());
+
       Scrapbook.highlighter.highlight("container", $container)
 
-      var $previewLI = $('<li class="preview" style="display: none;"></li>');
-      $previewLI.text(result);
-      this.previews.push($previewLI);
-      this.$list.append($previewLI)
+      var result = $container.html();
+      $previewLi.text(result);
+
+      this.previews.push($previewLi);
+      this.$list.append($previewLi)
     }
+
     if (this.count > 0) {
       this.displayCount();
       this.showIndex(0);

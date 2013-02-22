@@ -17,6 +17,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           p
           button.btn#scrapbook-extract Extract
           ul#scrapbook-extracted-results
+          button.btn#scrapbook-submit Submit to Factual
         END
 
     var FACTUAL_URL = "http://api.v3.factual.com";
@@ -49,7 +50,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.$ulResults = this.$root.find("#scrapbook-extracted-results");
 
 
-    this.previewPane = new Scrapbook.Preview(self.$selectorPreviews)
+    this.previewPane = new Scrapbook.Preview(self.$selectorPreviews);
   }
 
   function registerEvents() {
@@ -80,13 +81,10 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
 
   function process() {
     Scrapbook.highlighter.unHighlight("ALL");
-    //this.$selectorPreviews.html("");
 
     var $containers = this.getJqContainers();
 
-    this.previewPane.clear();
-    this.previewPane.addPreviews($containers);
-
+    this.previewPane.populateByTargets($containers);
   }
 
   function addExtractor() {
@@ -119,7 +117,9 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     if (!this.hash.name) {
       this.hash.name = prompt("Enter Rules' Name:", "Name");
     }
-    this.rulestore.saveRule(this.hash.name, this.toHash());
+    this.rulestore.saveRule(this.hash.name, this.toHash(), #{
+      alert("Saved!");
+    });
   }
 
   function toHash() {

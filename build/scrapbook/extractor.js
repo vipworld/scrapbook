@@ -33,7 +33,9 @@ $m.Class.extend("Scrapbook.Extractor", function(KLASS, OO){
       extracted = $target.html().match(extractor.regexp)[1];
     } else if (extractor.dom) {
       var $subTarget = $target.find(extractor.dom);
-      Scrapbook.highlighter.highlight("extractor", $subTarget);
+      if ($subTarget.length) {
+        Scrapbook.highlighter.highlight("extractor", $subTarget);
+      }
       extracted = $subTarget.text();
     }
 

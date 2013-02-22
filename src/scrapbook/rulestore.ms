@@ -16,14 +16,12 @@ class RuleStore {
     });
   }
 
-  function saveRule(key, obj) {
+  function saveRule(key, obj, cb) {
     this.getRules(#(rules){
       var store = rules || {};
       store[key] = obj;
 
-      chrome.storage.local.set(store, #{
-        self.emit('saved', $1);
-      });
+      chrome.storage.local.set(store, cb);
     });
   }
 

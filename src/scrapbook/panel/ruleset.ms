@@ -20,12 +20,20 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
         hr
         ul.ruleset-list
     END
+
+    var RULES_HTML = <<END;
+      li.rules
+        i.icon-remove.icon-white
+        span.name= name
+    END
   }
 
   var NAME = "RULESET";
 
   function initHTML() {
     this.$root = $(jade.compile(HTML)()).appendTo(this.$parent);
+
+    this.rulesTempl = jade.compile(RULES_HTML);
 
     this.$newRule  = this.$root.find('.newRules:first');
     this.$ruleList = this.$root.find('.ruleset-list:first');
@@ -109,7 +117,7 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
   function populate(rules) {
     var html = "";
     for (var key in rules) {
-      html += "<li>" + key + "</li>"
+      html += this.rulesTempl({name: key});
     }
     this.$ruleList.html(html);
   }
