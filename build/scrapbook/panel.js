@@ -44,9 +44,7 @@ $m.Class.extend("Panel", function(KLASS, OO){
     this.$addRule.click(function(e) {
       e.preventDefault();
       var form = $(e.target).parents('form');
-      var vals = form.serializeArray();
-      self.saveRule(vals);
-      self.clearForm();
+      self.saveRule(form);
 
       self.drawRules();
       self.$newRule.show();
@@ -72,9 +70,10 @@ $m.Class.extend("Panel", function(KLASS, OO){
     // stub
   });
 
-  OO.addMember("saveRule", function(vals){var self=this;
-    console.log('save rule ', vals);
-    this.rules.setRule(vals[0].value, { data: 'hello' });
+  OO.addMember("saveRule", function(form){var self=this;
+    var name     = form.find('input[name="name"]');
+    var table_id = form.find('input[name="table"]');
+    this.rulestore.setRule(vals[0].value, { data: 'hello' });
   });
 
   OO.addMember("drawRules", function(){var self=this;
@@ -100,15 +99,4 @@ $m.Class.extend("Panel", function(KLASS, OO){
 
 });
 
-//var panel = new Panel(root);
-
-$m.Class.extend("RulesManager", function(KLASS, OO){
-  // handles ui for rule panel
-  // displays preview
-  // navigate through matches 
-  // edit and save rules
-  OO.addMember("initialize", function(root){var self=this;
-   
-  });
-});
 

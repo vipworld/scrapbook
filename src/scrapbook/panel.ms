@@ -69,9 +69,7 @@ class Panel {
     this.$addRule.click(function(e) {
       e.preventDefault();
       var form = $(e.target).parents('form');
-      var vals = form.serializeArray();
-      self.saveRule(vals);
-      self.clearForm();
+      self.saveRule(form);
 
       self.drawRules();
       self.$newRule.show();
@@ -97,9 +95,10 @@ class Panel {
     // stub
   }
 
-  function saveRule(vals) {
-    console.log('save rule ', vals);
-    this.rules.setRule(vals[0].value, { data: 'hello' });
+  function saveRule(form) {
+    var name     = form.find('input[name="name"]');
+    var table_id = form.find('input[name="table"]');
+    this.rulestore.setRule(vals[0].value, { data: 'hello' });
   }
 
   function drawRules() {
@@ -125,14 +124,3 @@ class Panel {
 
 }
 
-//var panel = new Panel(root);
-
-class RulesManager {
-  // handles ui for rule panel
-  // displays preview
-  // navigate through matches 
-  // edit and save rules
-  function initialize(root) {
-   
-  }
-}

@@ -3,6 +3,7 @@ class RuleStore {
 
   function initialize() {
     this.getRules(#{
+      console.log($1);
       self.emit('load', $1);
     });
     this.registerEvents();
@@ -16,24 +17,29 @@ class RuleStore {
     });
   }
 
-  function deleteRule(key) {
-  }
-
   function saveRule(key, obj) {
-    var store;
-    if ('object' == (typeof key)) store = key;
-    else store[key] = obj;
-    chrome.storage.local.set(store, #{
-      self.emit('rulesaved', $1);
-    })
+    this.getRules(#(rules){
+      var store = rules || {};
+      store[key] = obj;
+
+      chrome.storage.local.set(store, #{
+        self.emit('rulesaved', $1);
+      });
+    });
   }
 
   function getRules(cb) {
     chrome.storage.local.get(null, cb);
   }
 
+  function getRule(key) {
+  }
+
   function clearRules() {
     chrome.storage.local.clear();
+  }
+
+  function deleteRule(key) {
   }
   
 }
