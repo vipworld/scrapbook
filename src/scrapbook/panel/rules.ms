@@ -100,7 +100,6 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
 
     foreach (var container in $containers) {
       var result = this.extractors.map(#{ => $1.extract($(container)) });
-      console.log(result);
 
       html += "<li>";
       result.forEach(#{

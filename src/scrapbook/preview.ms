@@ -19,13 +19,20 @@ class Scrapbook.Preview {
   function initHTML() {
     this.$root.html(jade.compile(HTML)());
     this.$list = this.$root.find('ul');
-    this.$prev = this.$root.find('.prev');
-    this.$next = this.$root.find('.next');
+    this.$prev = this.$root.find('.prevResult');
+    this.$next = this.$root.find('.nextResult');
     this.$resultCount = this.$root.find('.result-count');
   }
 
   function registerEvents() {
-    this.$prev
+    this.$prev.click(#{
+      console.log('clicked');
+      self.showIndex(--self.currentIndex);
+    });
+    this.$next.click(#{
+      console.log('clicked');
+      self.showIndex(++self.currentIndex);
+    });
   }
 
   function clear() {
@@ -37,8 +44,9 @@ class Scrapbook.Preview {
 
   function showIndex(idx) {
     if (idx < 0) idx = 0;
+    if (idx > (this.count - 1)) idx = this.count - 1
     this.currentIndex = idx;
-    console.log(this.previews);
+    
     this.previews[idx].show();
     this.previews[idx].siblings().hide();
   }

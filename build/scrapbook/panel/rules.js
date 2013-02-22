@@ -83,7 +83,6 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Rules", function(KLASS, OO){
 
     for (var _i_0=0,container=null,_list_0=$containers,_len_0=_list_0.length;(container=_list_0[_i_0])||_i_0<_len_0;_i_0++) {
       var result = this.extractors.map(function($1,$2,$3){ return  $1.extract($(container)) });
-      console.log(result);
 
       html += "<li>";
       result.forEach(function($1,$2,$3){
