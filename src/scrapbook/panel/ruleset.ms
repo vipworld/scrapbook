@@ -6,9 +6,15 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
         ul.ruleset-list
         button.btn.newRules New Rules
         form.ruleset-define-form(style="display: none;")
-          input(type="text", name="name", placeholder="name")
-          input(type="text", name="table", placeholder="factual table id (optional)")
-          a(href="javascript:void(0)").btn.addRule Add Rule
+          .control-group
+            input(type="text", name="name", placeholder="name")
+          .control-group
+            input(type="text", name="table", placeholder="factual table id (optional)")
+          .control-group
+            .controls
+              a(href="javascript:void(0)").btn.addRule Add Rule
+              a(href="javascript:void(0)").btn.cancelAddRule Cancel
+        hr
         a(href="javascript:void(0)").clearRules Clear Rules
         | |
         a(href="javascript:void(0)").logRules Console Rules
@@ -24,10 +30,12 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
     this.$ruleList = this.$root.find('.ruleset-list:first');
     this.$ruleForm = this.$root.find('.ruleset-define-form:first');
     this.$addRule  = this.$root.find('.addRule:first');
+    this.$cancelAddRule  = this.$root.find('.cancelAddRule:first');
     this.$clearRules = this.$root.find('.clearRules:first');
-    this.$logRules = this.$root.find('.logRules:first');
+    this.$logRules   = this.$root.find('.logRules:first');
+    this.$nameInput  = this.$ruleForm.find('input[name="name"]');
+    this.$tableInput = this.$ruleForm.find('input[name="table"]');
 
-    this.populate();
   }
 
   function registerEvents() {
@@ -53,8 +61,13 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
       e.preventDefault();
       var form     = $(e.target).parents('form');
       self.saveRule(form);
-      //self.clearForm();
+      self.clearForm();
 
+      self.$newRule.show();
+      self.$ruleForm.fadeOut();
+    });
+
+    this.$cancelAddRule.click(#{
       self.$newRule.show();
       self.$ruleForm.fadeOut();
     });
@@ -64,6 +77,7 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
         console.log('rules cleared');
       });
     });
+
     this.$logRules.click(#{
       self.rulestore.getRules(#{
         console.log($1);
@@ -72,13 +86,18 @@ class Scrapbook.Panel.Ruleset extends Scrapbook.Panel.Base {
   }
 
   function saveRule(form) {
-    var name     = form.find('input[name="name"]').val();
-    var table_id = form.find('input[name="table"]').val();
+    var name     = this.$nameInput.val();
+    var table_id = this.$tableInput.val();
     this.rulestore.saveRule(name, { 
       table_id: table_id,
       timestamp: new Date(),
       site: window.location.href
     });
+  }
+
+  function clearForm() {
+    this.$nameInput.val('');
+    this.$tableInput.val('');
   }
 
   function populate(rules) {

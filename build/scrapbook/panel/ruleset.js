@@ -1,6 +1,6 @@
 Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
   
-    var HTML = ".panel.ruleset\n  h1 Existing Rulesets\n  ul.ruleset-list\n  button.btn.newRules New Rules\n  form.ruleset-define-form(style=\"display: none;\")\n    input(type=\"text\", name=\"name\", placeholder=\"name\")\n    input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    a(href=\"javascript:void(0)\").btn.addRule Add Rule\n  a(href=\"javascript:void(0)\").clearRules Clear Rules\n  | |\n  a(href=\"javascript:void(0)\").logRules Console Rules";
+    var HTML = ".panel.ruleset\n  h1 Existing Rulesets\n  ul.ruleset-list\n  button.btn.newRules New Rules\n  form.ruleset-define-form(style=\"display: none;\")\n    .control-group\n      input(type=\"text\", name=\"name\", placeholder=\"name\")\n    .control-group\n      input(type=\"text\", name=\"table\", placeholder=\"factual table id (optional)\")\n    .control-group\n      .controls\n        a(href=\"javascript:void(0)\").btn.addRule Add Rule\n        a(href=\"javascript:void(0)\").btn.cancelAddRule Cancel\n  hr\n  a(href=\"javascript:void(0)\").clearRules Clear Rules\n  | |\n  a(href=\"javascript:void(0)\").logRules Console Rules";
   
 
   OO.addMember("NAME", "RULESET");
@@ -12,10 +12,12 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
     this.$ruleList = this.$root.find('.ruleset-list:first');
     this.$ruleForm = this.$root.find('.ruleset-define-form:first');
     this.$addRule  = this.$root.find('.addRule:first');
+    this.$cancelAddRule  = this.$root.find('.cancelAddRule:first');
     this.$clearRules = this.$root.find('.clearRules:first');
-    this.$logRules = this.$root.find('.logRules:first');
+    this.$logRules   = this.$root.find('.logRules:first');
+    this.$nameInput  = this.$ruleForm.find('input[name="name"]');
+    this.$tableInput = this.$ruleForm.find('input[name="table"]');
 
-    this.populate();
   });
 
   OO.addMember("registerEvents", function(){var self=this;
@@ -41,8 +43,13 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
       e.preventDefault();
       var form     = $(e.target).parents('form');
       self.saveRule(form);
-      //self.clearForm();
+      self.clearForm();
 
+      self.$newRule.show();
+      self.$ruleForm.fadeOut();
+    });
+
+    this.$cancelAddRule.click(function($1,$2,$3){
       self.$newRule.show();
       self.$ruleForm.fadeOut();
     });
@@ -52,6 +59,7 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
         console.log('rules cleared');
       });
     });
+
     this.$logRules.click(function($1,$2,$3){
       self.rulestore.getRules(function($1,$2,$3){
         console.log($1);
@@ -60,13 +68,18 @@ Scrapbook.Panel.Base.extend("Scrapbook.Panel.Ruleset", function(KLASS, OO){
   });
 
   OO.addMember("saveRule", function(form){var self=this;
-    var name     = form.find('input[name="name"]').val();
-    var table_id = form.find('input[name="table"]').val();
+    var name     = this.$nameInput.val();
+    var table_id = this.$tableInput.val();
     this.rulestore.saveRule(name, { 
       table_id: table_id,
       timestamp: new Date(),
       site: window.location.href
     });
+  });
+
+  OO.addMember("clearForm", function(){var self=this;
+    this.$nameInput.val('');
+    this.$tableInput.val('');
   });
 
   OO.addMember("populate", function(rules){var self=this;
