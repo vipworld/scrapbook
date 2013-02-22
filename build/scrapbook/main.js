@@ -28,7 +28,6 @@ $m.Class.extend("Scrapbook.Main", function(KLASS, OO){
   OO.addMember("initPanels", function(){var self=this;
     this.panels.push(new Scrapbook.Panel.Ruleset(this.$panels, this));
     this.panels.push(new Scrapbook.Panel.Rules(this.$panels, this));
-    this.panels.push(new Scrapbook.Panel.Api(this.$panels, this));
 
     this.switchToPanel("RULESET");
   });

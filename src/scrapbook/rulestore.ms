@@ -17,16 +17,16 @@ class RuleStore {
   }
 
   function saveRule(key, obj, cb) {
-    this.getRules(#(rules){
-      var store = rules || {};
-      store[key] = obj;
-
-      chrome.storage.local.set(store, cb);
+    this.getRules(#(ruleset){
+      ruleset[key] = obj
+      chrome.storage.local.set({ruleset: ruleset}, cb);
     });
   }
 
   function getRules(cb) {
-    chrome.storage.local.get(null, cb);
+    chrome.storage.local.get("ruleset", #{
+      cb($1["ruleset"] || {});
+    });
   }
 
   function getRule(key, cb) {
@@ -36,10 +36,9 @@ class RuleStore {
   }
 
   function clearRules() {
-    chrome.storage.local.clear();
+    chrome.storage.local.set({ruleset: {}});
   }
 
   function deleteRule(key) {
   }
-  
 }

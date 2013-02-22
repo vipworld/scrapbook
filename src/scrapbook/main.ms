@@ -34,7 +34,6 @@ class Scrapbook.Main {
   function initPanels() {
     this.panels.push(new Scrapbook.Panel.Ruleset(this.$panels, this));
     this.panels.push(new Scrapbook.Panel.Rules(this.$panels, this));
-    this.panels.push(new Scrapbook.Panel.Api(this.$panels, this));
 
     this.switchToPanel("RULESET");
   }

@@ -4,10 +4,12 @@ require 'json'
 SRC_DIR   = File.expand_path('../src', __FILE__)
 BUILD_DIR = File.expand_path('../build', __FILE__)
 
-MS_PARSER  = File.expand_path('../node_modules/mochiscript/bin/ms-parse', __FILE__)
-MS_MATCHER = /\.ms$/
-LESS_PARSER = File.expand_path('../node_modules/less/bin/lessc', __FILE__)
+MS_PARSER    = File.expand_path('../node_modules/mochiscript/bin/ms-parse', __FILE__)
+MS_MATCHER   = /\.ms$/
+LESS_PARSER  = File.expand_path('../node_modules/less/bin/lessc', __FILE__)
 LESS_MATCHER = /\.less$/
+JADE_PARSER  = File.expand_path('../node_modules/jade/bin/jade <', __FILE__)
+JADE_MATCHER = /\.jade$/
 
 def compile(src_path, matcher, parser, ext_name)
   target_path = src_path.sub(SRC_DIR, BUILD_DIR).sub(matcher, ext_name)
@@ -41,5 +43,11 @@ task :build do
   files(LESS_MATCHER).each do |file|
     puts "  #{file}"
     compile(file, LESS_MATCHER, LESS_PARSER, ".css")
+  end
+
+  puts "Compiling Jade Files:"
+  files(JADE_MATCHER).each do |file|
+    puts "  #{file}"
+    compile(file, JADE_MATCHER, JADE_PARSER, ".html")
   end
 end

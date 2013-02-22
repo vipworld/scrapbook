@@ -1,20 +1,30 @@
-function save_options() {
-  var table_key = document.getElementById("key_value").value;
-  localStorage["last_key"] = table_key;
-  var secret_value = document.getElementById("secret_value").value;
-  localStorage["last_secret"] = secret_value;
-};
+$(function () {
+  var $key = $('input.key');
+  var $secret = $('input.secret');
+  var $save = $('button.save');
 
-function restore_options() {
-  var previous_key = localStorage["last_key"];
-  var last_secret = localStorage["last_secret"];
-  if (previous_key) {
-    document.getElementById("key_value").value = previous_key;
-  };
-  if (last_secret) {
-  document.getElementById("secret_value").value = last_secret;
-  };
-};
+  function saveKeySecret() {
+    var key = $key.val();
+    var secret = $secret.val();
 
-document.querySelector('#save').addEventListener('click', save_options);
-document.addEventListener('DOMContentLoaded', restore_options);
+    chrome.storage.local.set({
+      options: {
+        key: key,
+        secret: secret
+      }
+    }, function () {
+      alert("saved!");
+    });
+  };
+
+  function loadKeySecret() {
+    chrome.storage.local.get("options", function (data) {
+      $key.val(data["options"]["key"] || "");
+      $secret.val(data["options"]["secret"] || "");
+    });
+  };
+
+  loadKeySecret();
+
+  $save.click(saveKeySecret);
+});

@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "mochiscript": "~0.6.15",
-    "less": "~1.3.3"
+    "mochiscript": "0.6.16",
+    "less": "1.3.3",
+    "jade": "0.28.1"
   }
 }
