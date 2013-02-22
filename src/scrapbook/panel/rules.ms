@@ -134,7 +134,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     this.reset();
     this.$txtSelector.val(hash["selector"] || "");
     (hash["extractors"] || []).forEach(#{
-      self.extractors.push(new Scrapbook.Extractions(self.$ulExtractors, $1));
+      self.extractors.push(new Scrapbook.Extractor(self.$ulExtractors, $1));
     });
     this.hash = hash;
   }
