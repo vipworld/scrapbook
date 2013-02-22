@@ -15,7 +15,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           button.btn#scrapbook-add-extractor Add Extractor
           ul#scrapbook-extractors.unstyled
           p
-          button.btn#scrapbook-extract Extract
+          button.btn#scrapbook-extract Extract Preview
           ul#scrapbook-extracted-results
           button.btn#scrapbook-submit Submit to Factual
         END
