@@ -3,6 +3,7 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
     var HTML = <<END;
       .panel.rules
         h1 Rules/Extractions
+<<<<<<< HEAD
         .scrapbook-header
           button.btn#scrapbook-start-inspector Inspect
           button.btn.pull-right#scrapbook-back Back
@@ -18,6 +19,9 @@ class Scrapbook.Panel.Rules extends Scrapbook.Panel.Base {
           button.btn#scrapbook-extract Extract Preview
           ul#scrapbook-extracted-results
           button.btn#scrapbook-submit Submit to Factual
+          p
+          p
+          p
           p
         END
 

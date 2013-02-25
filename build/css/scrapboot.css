@@ -41,7 +41,6 @@ li.scrapbook-extractor {
   position: fixed;
   top: 0px;
   left: 0px;
-  overflow: hidden;
   text-align: left;
   z-index: 2000;
   /* Allow for input prepend/append in search forms */
@@ -57,7 +56,7 @@ li.scrapbook-extractor {
   height: 100%;
   overflow-y: scroll;
   position: absolute;
-  top: 21px;
+  padding: 21px 0px;
 }
 .scrapbook .panel-out {
   left: 350px;
